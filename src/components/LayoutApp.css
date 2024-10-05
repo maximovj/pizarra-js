@@ -1,0 +1,45 @@
+/* Estilo general del aside */
+.aside {
+  width: 16rem; /* 64px */
+  padding: 1rem;
+  position: relative;
+}
+  
+/* Animación de entrada (mostrar) */
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animación de salida (ocultar) */
+@keyframes slideOut {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+/* Aplicación de las animaciones */
+.slide-in {
+  animation: slideIn 0.3s ease forwards;
+}
+
+.slide-out {
+  animation: slideOut 0.3s ease forwards;
+}
+
+@media (max-width: 768px) {
+    .aside {
+        display: none; /* Ocultar el aside en dispositivos móviles */
+    }
+}
