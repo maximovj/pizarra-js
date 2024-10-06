@@ -5,3 +5,11 @@
 body {
     @apply bg-white
 }
+
+.canvas-container {
+    cursor: url('/path/to/pencil-icon.png'), auto; /* Para el lápiz */
+}
+
+.canvas-container.eraser {
+    cursor: url('/path/to/eraser-icon.png'), auto; /* Para el borrador */
+}
