@@ -20,6 +20,11 @@ export const CanvasProvider = ({ children }) => {
     const [fontColor, setFontColor] = useState('#000000');
     const [fontFamily, setFontFamily] = useState('Arial');
 
+    // Estados para capas
+    const [layers, setLayers] = useState([[]]);
+    const [visibility, setVisibility] = useState([true]);
+    const [activeLayer, setActiveLayer] = useState(0);
+
     useEffect(() => {
         const isTouchDevice = () => {
             return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -36,7 +41,7 @@ export const CanvasProvider = ({ children }) => {
         ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
         setContext(ctx);
-    }, []);
+    }, [layers, visibility]);
 
     const startDrawing = (x, y) => {
         context.beginPath();
@@ -117,6 +122,51 @@ export const CanvasProvider = ({ children }) => {
         link.click();
     };
 
+    const addLayer = () => {
+        setLayers(prevLayers => [...prevLayers, []]);
+        setVisibility(prevVisibility => [...prevVisibility, true]);
+        setActiveLayer(layers.length);
+    };
+
+    const changeLayer = (index) => {
+        setActiveLayer(index);
+    };
+
+    const toggleLayerVisibility = (index) => {
+        setVisibility(prevVisibility => {
+            const newVisibility = [...prevVisibility];
+            newVisibility[index] = !newVisibility[index];
+            return newVisibility;
+        });
+    };
+
+    const exportLayers = () => {
+        const json = JSON.stringify(layers);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'layers.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
+    const importLayers = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const json = e.target.result;
+            const importedLayers = JSON.parse(json);
+            setLayers(importedLayers);
+        };
+
+        if (file) {
+            reader.readAsText(file);
+        }
+    };
+
     const value = {
         canvasRef,
         isDrawing,
@@ -138,6 +188,17 @@ export const CanvasProvider = ({ children }) => {
         imageFormat,
         setImageFormat,
         saveImage,
+        layers,
+        setLayers,
+        visibility,
+        setVisibility,
+        activeLayer,
+        setActiveLayer,
+        addLayer,
+        changeLayer,
+        toggleLayerVisibility,
+        exportLayers,
+        importLayers,
     };
 
     return (

@@ -8,6 +8,13 @@ const Canvas = () => {
         draw,
         stopDrawing,
         inputDevice,
+        activeLayer,
+        layers,
+        changeLayer,
+        toggleLayerVisibility,
+        visibility,
+        addLayer,
+        exportLayers,
     } = useCanvas();
 
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
@@ -51,6 +58,20 @@ const Canvas = () => {
     };
 
     return (<div>
+        <button onClick={addLayer} className="px-4 py-2 mx-1">Agregar Capa</button>
+        <button onClick={exportLayers} className="px-4 py-2 mx-1">Exportar Capa</button>
+        <div className="flex mb-2 overflow-auto w-[400px] md:w-[960px]">
+            {layers.map((_, index) => (
+                <div key={index} className="flex items-center">
+                    <button onClick={() => changeLayer(index)} className={`px-4 py-2 mx-1 ${activeLayer === index ? 'bg-blue-400' : ''}`}>
+                        Capa {index + 1}
+                    </button>
+                    <button onClick={() => toggleLayerVisibility(index)} className="px-2 py-1 mx-1">
+                        {visibility[index] ? '🙈' : '👁'}
+                    </button>
+                </div>
+            ))}
+        </div>
         <div className="flex flex-1 justify-between">
             <span className="mr-2">
                 {inputDevice === 'touch' ? '📱 Modo: táctil' : '💻 Modo: cursor'}
