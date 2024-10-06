@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import "./LayoutApp.css";
 import { CanvasProvider } from "../context/CanvasProvider";
 import Header from "./Header";
+import Tools from "./Tools";
 
 const LayoutApp = () => {
     const [isAsideOpen, setIsAsideOpen] = useState(true);
@@ -24,38 +24,8 @@ const LayoutApp = () => {
 
                 <div className="flex flex-1 overflow-hidden">
                     {/* El aside se oculta/ muestra con una animación personalizada */}
-                    {isAsideOpen && (<>
-                        <aside
-                            className={`bg-zinc-700 w-44 p-4 relative text-white hidden md:block ${isAsideOpen ? 'slide-in' : 'slide-out'} ${!isAsideOpen && !isTransitioning ? 'hidden' : ''}`}
-                            onAnimationEnd={handleAnimationEnd}
-                        >
-                            <nav>
-                                <ul className="flex flex-col gap-8">
-                                    <li>🖊 Lápiz</li>
-                                    <li>🔲 Borrador</li>
-                                </ul>
-                            </nav>
-                        </aside>
-                    </>)}
+                    <Tools handleAnimationEnd={handleAnimationEnd} isAsideOpen={isAsideOpen} isTransitioning={isTransitioning} />
 
-                    {!isAsideOpen && (<>
-                        <aside
-                            className={` bg-zinc-700 w-20 p-4 relative text-white ${!isAsideOpen ? 'slide-in' : 'slide-out'}`}
-                        >
-                            <nav>
-                                <ul className="flex flex-col items-center gap-8">
-                                    <li className="text-center">
-                                        <i className="block">🖊</i>
-                                        <small>Lápiz</small>
-                                    </li>
-                                    <li className="text-center">
-                                        <i className="block">🔲</i>
-                                        <small>Borrador</small>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </aside>
-                    </>)}
 
                     <main className="flex-1 p-6 bg-white">
                         <Outlet />
