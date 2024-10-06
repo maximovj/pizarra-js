@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./LayoutApp.css";
 import { CanvasProvider } from "../context/CanvasProvider";
+import Header from "./Header";
 
 const LayoutApp = () => {
     const [isAsideOpen, setIsAsideOpen] = useState(true);
@@ -19,17 +20,7 @@ const LayoutApp = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <CanvasProvider>
-                <header className="bg-blue-500 p-4 text-white">
-                    <div className="flex justify-start items-center gap-x-2">
-                        <button
-                            className="bg-white text-blue-500 p-2 rounded"
-                            onClick={toggleAside}
-                        >
-                            🍔
-                        </button>
-                        <h1 className="text-2xl">Pizarra JS</h1>
-                    </div>
-                </header>
+                <Header toggleAside={toggleAside} />
 
                 <div className="flex flex-1 overflow-hidden">
                     {/* El aside se oculta/ muestra con una animación personalizada */}

@@ -109,14 +109,6 @@ export const CanvasProvider = ({ children }) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
 
-    const getCoordinates = (event) => {
-        const rect = canvasRef.current.getBoundingClientRect();
-        return {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top,
-        };
-    };
-
     const saveImage = () => {
         const canvas = canvasRef.current;
         const link = document.createElement('a');
@@ -143,9 +135,10 @@ export const CanvasProvider = ({ children }) => {
         draw,
         stopDrawing,
         clearCanvas,
+        imageFormat,
+        setImageFormat,
+        saveImage,
     };
-
-
 
     return (
         <CanvasContext.Provider value={value}>
