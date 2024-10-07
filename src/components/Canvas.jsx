@@ -83,6 +83,8 @@ const Canvas = () => {
 
     return (<div>
 
+        {/* Tooltip flotante para herramientas avanzadas */}
+        {/* en dispositivo de touch / táctil */}
         {inputDevice === 'touch' && (
             <div className="bg-zinc-700 p-2 rounded-sm mb-4">
                 {/* Controles para herramienta capa */}
@@ -202,7 +204,8 @@ const Canvas = () => {
 
 
         {/* Tooltip flotante para herramientas avanzadas */}
-        {showTooltip && (
+        {/* en dispositivo de cursos mouse */}
+        {(showTooltip && inputDevice === 'mouse') && (
             <div
                 onMouseLeave={() => setShowTooltip(false)}
                 className="absolute bg-zinc-800 p-3 rounded-e-lg rounded-bl-lg shadow-lg text-white z-50"
