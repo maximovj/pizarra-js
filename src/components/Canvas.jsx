@@ -249,16 +249,16 @@ const Canvas = () => {
                             />
                         </div>
                         <div className="flex items-center mb-2">
-                            <label className="mr-2 text-sm">Tamaño:</label>
+                            <label className="mr-2 text-sm">Color:</label>
                             <input
                                 type="color"
                                 value={fontColor}
                                 onChange={(e) => setFontColor(e.target.value)}
-                                className="text-black py-1 px-2 rounded-md text-xs"
+                                className="text-black text-xs"
                             />
                         </div>
                         <div className="flex items-center mb-2">
-                            <label className="mr-2 text-sm">Tamaño:</label>
+                            <label className="mr-2 text-sm">Fuente:</label>
                             <select
                                 value={fontFamily}
                                 onChange={(e) => setFontFamily(e.target.value)}
