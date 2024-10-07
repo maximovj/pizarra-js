@@ -27,6 +27,8 @@ export const CanvasProvider = ({ children }) => {
     const [visibility, setVisibility] = useState([true]);
     const [activeLayer, setActiveLayer] = useState(0);
 
+    // Verifica que dispositivo tiene el usuario: 
+    // móvil táctil o en un pc  con mouse
     useEffect(() => {
         const isTouchDevice = () => {
             return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -45,6 +47,7 @@ export const CanvasProvider = ({ children }) => {
         setContext(ctx);
     }, [layers, visibility]);
 
+    // Crea una vista previa para cada dibujo realizado con el mouse
     useEffect(() => {
         if (previewPosition && startPosition) {
             clearCanvas();
@@ -52,16 +55,22 @@ export const CanvasProvider = ({ children }) => {
 
             if (tool === 'circle') {
                 drawCircle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
+            } else if (tool === 'line') {
+                drawLine(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             }
         }
     }, [previewPosition]);
 
+    // Se vuelve recrear todas los lienzos dentro del canvas
+    // después de mostrar la vista previa
     const redrawFigures = () => {
         clearCanvas();
         figures.forEach((figure) => {
             if (figure.visible) {
                 if (figure.tool === 'circle') {
                     drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+                } else if (figure.tool === 'line') {
+                    drawLine(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 } else if (figure.tool === 'pencil') {
                     context.strokeStyle = figure.lineColor;
                     context.lineWidth = figure.lineWidth;
@@ -79,6 +88,7 @@ export const CanvasProvider = ({ children }) => {
         });
     };
 
+    // Se llama cada vez que el usuario presiona el mouse o touch táctil
     const startDrawing = (x, y) => {
         context.beginPath();
         context.moveTo(x, y);
@@ -86,6 +96,7 @@ export const CanvasProvider = ({ children }) => {
         setStartPosition({ x, y });
     };
 
+    // Se llama cada vez que el usuario mueve el mouse o touch táctil
     const draw = (e) => {
         if (!isDrawing && !startPosition) return;
 
@@ -117,6 +128,7 @@ export const CanvasProvider = ({ children }) => {
         }
     };
 
+    // Se llama cada vez que el usuario suelta el mouse o touch táctil
     const stopDrawing = (e) => {
         if (startPosition) {
             const endX = e.nativeEvent.offsetX;
@@ -126,6 +138,8 @@ export const CanvasProvider = ({ children }) => {
                 drawText(startPosition.x, startPosition.y);
             } else if (tool === 'circle') {
                 drawCircle(startPosition.x, startPosition.y, endX, endY);
+            } else if (tool === 'line') {
+                drawLine(startPosition.x, startPosition.y, endX, endY);
             }
 
             if (tool !== 'pencil') {
@@ -149,8 +163,6 @@ export const CanvasProvider = ({ children }) => {
         setStartPosition(null);
         setPreviewPosition(null);
     };
-
-
 
     const drawText = (x, y) => {
         context.font = `${fontSize}px ${fontFamily}`;
@@ -179,6 +191,18 @@ export const CanvasProvider = ({ children }) => {
         context.beginPath();
         context.arc(startX, startY, radius, 0, Math.PI * 2);
         context.fill();
+        context.stroke();
+        if (isPreview) context.globalAlpha = 1.0;
+    };
+
+    const drawLine = (startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+        context.strokeStyle = customLineColor || lineColor;
+        context.fillStyle = customFillColor || fillColor;
+        context.lineWidth = customLineWidth || lineWidth;
+        if (isPreview) context.globalAlpha = 0.5;
+        context.beginPath();
+        context.moveTo(startX, startY);
+        context.lineTo(endX, endY);
         context.stroke();
         if (isPreview) context.globalAlpha = 1.0;
     };
