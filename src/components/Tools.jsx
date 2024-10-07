@@ -53,11 +53,19 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                             </div>
                         </button>
 
+                        <button className={`rounded-md p-2 w-full ${tool === 'square' ? 'bg-slate-500' : ''}`}
+                            onClick={() => setTool('square')}>
+                            <div className="flex flex-row gap-x-2">
+                                <i className="block">🔲</i>
+                                <span>Cuadrado</span>
+                            </div>
+                        </button>
+
                         <button
                             className={`rounded-md p-2 w-full ${tool === 'eraser' ? 'bg-slate-500' : ''}`}
                             onClick={() => setTool('eraser')}>
                             <div className="flex flex-row gap-x-2">
-                                <i className="block">🔲</i>
+                                <i className="block">🗑</i>
                                 <span>Borrador</span>
                             </div>
                         </button>
@@ -86,11 +94,11 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                             </div>
                         </button>
 
-                        <button className={`rounded-md p-2 w-full ${tool === 'pencil' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('pencil')}>
+                        <button className={`rounded-md p-2 w-full ${tool === 'line' ? 'bg-slate-500' : ''}`}
+                            onClick={() => setTool('line')}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">🥖</i>
-                                <span>Linea</span>
+                                <small className="text-[9px]">Linea</small>
                             </div>
                         </button>
 
@@ -119,10 +127,19 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button
+                            className={`rounded-md p-2 w-full ${tool === 'square' ? 'bg-slate-500' : ''}`}
+                            onClick={() => setTool('square')}>
+                            <div className="flex flex-col gap-y-1">
+                                <i className="block">🔲</i>
+                                <small className="text-[9px]">Cuadrado</small>
+                            </div>
+                        </button>
+
+                        <button
                             className={`rounded-md p-2 w-full ${tool === 'eraser' ? 'bg-slate-500' : ''}`}
                             onClick={() => setTool('eraser')}>
                             <div className="flex flex-col gap-y-1">
-                                <i className="block">🔲</i>
+                                <i className="block">🗑</i>
                                 <small className="text-[9px]">Borrador</small>
                             </div>
                         </button>

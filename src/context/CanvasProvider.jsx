@@ -57,6 +57,8 @@ export const CanvasProvider = ({ children }) => {
                 drawCircle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             } else if (tool === 'line') {
                 drawLine(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
+            } else if (tool === 'square') {
+                drawSquare(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             } else if (tool === 'triangle') {
                 drawTriangle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             }
@@ -115,6 +117,8 @@ export const CanvasProvider = ({ children }) => {
                 drawCircle(startPosition.x, startPosition.y, endX, endY);
             } else if (tool === 'triangle') {
                 drawTriangle(startPosition.x, startPosition.y, endX, endY);
+            } else if (tool === 'square') {
+                drawSquare(startPosition.x, startPosition.y, endX, endY);
             } else if (tool === 'line') {
                 drawLine(startPosition.x, startPosition.y, endX, endY);
             }
@@ -151,6 +155,8 @@ export const CanvasProvider = ({ children }) => {
                     drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 } else if (figure.tool === 'line') {
                     drawLine(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+                } else if (figure.tool === 'square') {
+                    drawSquare(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 } else if (figure.tool === 'triangle') {
                     drawTriangle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 } else if (figure.tool === 'pencil') {
@@ -186,6 +192,19 @@ export const CanvasProvider = ({ children }) => {
             visible: true,
         };
         setFigures([...figures, newFigure]);
+    };
+
+    const drawSquare = (startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+        const size = Math.abs(endX - startX);
+        context.strokeStyle = customLineColor || lineColor;
+        context.fillStyle = customFillColor || fillColor;
+        context.lineWidth = customLineWidth || lineWidth;
+        if (isPreview) context.globalAlpha = 0.5;
+        context.beginPath();
+        context.rect(startX, startY, size, size);
+        context.fill();
+        context.stroke();
+        if (isPreview) context.globalAlpha = 1.0;
     };
 
     const drawCircle = (startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
