@@ -14,6 +14,7 @@ const Canvas = () => {
         toggleLayerVisibility,
         visibility,
         addLayer,
+        deleteLayer,
         exportLayers,
         // Tools
         tool,
@@ -70,6 +71,33 @@ const Canvas = () => {
 
     return (<div>
 
+        {/* Controles para herramienta capa */}
+        {tool === 'layers' && (<div>
+            <h4 className="my-1 font-bold">Más opciones:</h4>
+            <div className="mb-2">
+                <button onClick={addLayer} className="bg-emerald-800 text-xs text-white px-4 py-2 mx-1 rounded-md">+</button>
+                <button onClick={deleteLayer} className="bg-red-800 text-xs text-white px-4 py-2 mx-1 rounded-md">-</button>
+                <button onClick={exportLayers} className="bg-sky-900 text-xs text-white px-4 py-2 mx-1 rounded-md">Exportar</button>
+            </div>
+            <div className="flex overflow-auto w-[400px] md:w-[540px] lg:w-[970px] mb-2">
+                {layers.map((_, index) => (
+                    <div key={index} className="flex items-center ml-2">
+                        <div className="flex justify-start bg-zinc-700 rounded-md w-max h-[38px]">
+                            <button onClick={() => changeLayer(index)}
+                                className={`px-4 py-2 text-white 
+                            ${activeLayer === index ? 'bg-blue-400 rounded-l' : ''}
+                            `}>
+                                <small className="text-xs">Capa {index + 1}</small>
+                            </button>
+                            <button onClick={() => toggleLayerVisibility(index)} className="px-2 py-2 bg-red-900 rounded-r">
+                                {visibility[index] ? '🙈' : '👁'}
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>)}
+
         {/* Controles de texto */}
         {tool === 'text' && (
             <div className="mb-2">
@@ -107,25 +135,6 @@ const Canvas = () => {
             </div>
         )}
 
-        <button onClick={addLayer} className="px-4 py-2 mx-1">Agregar Capa</button>
-        <button onClick={exportLayers} className="px-4 py-2 mx-1">Exportar Capa</button>
-        <div className="flex mb-2 overflow-auto w-[400px] md:w-[540px] lg:w-[970px]">
-            {layers.map((_, index) => (
-                <div key={index} className="flex items-center ml-2">
-                    <div className="flex justify-start bg-zinc-700 rounded-md w-[118px] h-[38px]">
-                        <button onClick={() => changeLayer(index)}
-                            className={`px-4 py-2 text-white 
-                            ${activeLayer === index ? 'bg-blue-400 rounded-l' : ''}
-                            `}>
-                            Capa {index + 1}
-                        </button>
-                        <button onClick={() => toggleLayerVisibility(index)} className="px-2 py-2 bg-red-900 rounded-r">
-                            {visibility[index] ? '🙈' : '👁'}
-                        </button>
-                    </div>
-                </div>
-            ))}
-        </div>
         <div className="flex flex-1 justify-between">
             <span className="mr-2">
                 {inputDevice === 'touch' ? '📱 Modo: táctil' : '💻 Modo: cursor'}
