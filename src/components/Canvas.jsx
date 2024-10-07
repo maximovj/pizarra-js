@@ -152,7 +152,7 @@ const Canvas = () => {
                     </div>
                 )}
 
-                {/* Controles de texto */}
+                {/* Controles de figuras circulo, triangulo, cuadrado */}
                 {(tool === 'circle' || tool === 'triangle' || tool === 'square') && (
                     <div className="mb-2">
                         <div className="flex mb-2">
@@ -172,7 +172,7 @@ const Canvas = () => {
                     </div>
                 )}
 
-                {/* Controles de texto */}
+                {/* Controles de herramienta lápiz y linea */}
                 {(tool === 'pencil' || tool === 'line') && (
                     <div className="mb-2">
                         <div className="flex mb-2">
@@ -188,7 +188,7 @@ const Canvas = () => {
                     </div>
                 )}
 
-                {/* Controles de texto */}
+                {/* Controles de herramienta borrador */}
                 {(tool === 'eraser') && (
                     <div className="mb-2">
                         <div className="flex mb-2">
