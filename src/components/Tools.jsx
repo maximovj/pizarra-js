@@ -85,7 +85,7 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                 <aside
                     className={` bg-zinc-700 w-20 p-4 relative text-white ${!isAsideOpen ? 'slide-in' : 'slide-out'}`}
                 >
-                    <div className="flex flex-col gap-y-4">
+                    <div className="flex flex-col">
                         <button className={`rounded-md p-2 w-full ${tool === 'pencil' ? 'bg-slate-500' : ''}`}
                             onClick={() => setTool('pencil')}>
                             <div className="flex flex-col gap-y-1">
