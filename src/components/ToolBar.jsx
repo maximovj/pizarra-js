@@ -1,5 +1,5 @@
-import CompactToolBar from "./CompactToolBar";
-import ExpandedToolBar from "./ExpandedToolBar";
+import CompactToolBar from "./ToolBar/CompactToolBar";
+import ExpandedToolBar from "./ToolBar/ExpandedToolBar";
 import "./ToolBar.css";
 
 const ToolBar = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {

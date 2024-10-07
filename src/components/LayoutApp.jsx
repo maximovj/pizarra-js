@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { CanvasProvider } from "../context/CanvasProvider";
 import Header from "./Header";
-import ToolBar from "./ToolBar/ToolBar";
+import ToolBar from "./ToolBar";
+import Footer from "./Footer";
 
 const LayoutApp = () => {
     const [isAsideOpen, setIsAsideOpen] = useState(true);
@@ -26,15 +27,12 @@ const LayoutApp = () => {
                     {/* El aside se oculta/ muestra con una animación personalizada */}
                     <ToolBar handleAnimationEnd={handleAnimationEnd} isAsideOpen={isAsideOpen} isTransitioning={isTransitioning} />
 
-
                     <main className="flex-1 p-6 bg-white">
                         <Outlet />
                     </main>
                 </div>
 
-                <footer className="bg-blue-500 p-4 text-white text-center mt-auto">
-                    <p>Dev by: Víctor J.</p>
-                </footer>
+                <Footer />
             </CanvasProvider>
         </div>
     );
