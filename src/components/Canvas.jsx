@@ -15,6 +15,17 @@ const Canvas = () => {
         visibility,
         addLayer,
         exportLayers,
+        // Tools
+        tool,
+        // Tool Text
+        text,
+        setText,
+        fontSize,
+        setFontSize,
+        fontColor,
+        setFontColor,
+        fontFamily,
+        setFontFamily,
     } = useCanvas();
 
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
@@ -58,6 +69,44 @@ const Canvas = () => {
     };
 
     return (<div>
+
+        {/* Controles de texto */}
+        {tool === 'text' && (
+            <div className="mb-2">
+                <input
+                    type="text"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    placeholder="Escribe aquí..."
+                    className="border px-2 py-1 mr-2"
+                />
+                <label className="mr-2">Tamaño: {fontSize}</label>
+                <input
+                    type="range"
+                    min="10"
+                    max="50"
+                    value={fontSize}
+                    onChange={(e) => setFontSize(e.target.value)}
+                    className="mr-2"
+                />
+                <input
+                    type="color"
+                    value={fontColor}
+                    onChange={(e) => setFontColor(e.target.value)}
+                    className="mr-2"
+                />
+                <select
+                    value={fontFamily}
+                    onChange={(e) => setFontFamily(e.target.value)}
+                    className="mr-2"
+                >
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+            </div>
+        )}
+
         <button onClick={addLayer} className="px-4 py-2 mx-1">Agregar Capa</button>
         <button onClick={exportLayers} className="px-4 py-2 mx-1">Exportar Capa</button>
         <div className="flex mb-2 overflow-auto w-[400px] md:w-[540px] lg:w-[970px]">

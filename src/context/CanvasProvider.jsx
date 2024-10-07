@@ -15,6 +15,8 @@ export const CanvasProvider = ({ children }) => {
     const [previewPosition, setPreviewPosition] = useState(null);
     const [imageFormat, setImageFormat] = useState('png');
     const [inputDevice, setInputDevice] = useState('mouse');
+
+    // Tool Text
     const [text, setText] = useState('');
     const [fontSize, setFontSize] = useState(20);
     const [fontColor, setFontColor] = useState('#000000');
@@ -86,6 +88,10 @@ export const CanvasProvider = ({ children }) => {
             const endX = e.nativeEvent.offsetX;
             const endY = e.nativeEvent.offsetY;
 
+            if (tool === 'text') {
+                drawText(startPosition.x, startPosition.y);
+            }
+
             if (tool !== 'pencil') {
                 const figure = {
                     tool,
@@ -106,6 +112,24 @@ export const CanvasProvider = ({ children }) => {
         setIsDrawing(false);
         setStartPosition(null);
         setPreviewPosition(null);
+    };
+
+    const drawText = (x, y) => {
+        context.font = `${fontSize}px ${fontFamily}`;
+        context.fillStyle = fontColor;
+        context.fillText(text, x, y);
+
+        const newFigure = {
+            tool: 'text',
+            x,
+            y,
+            text,
+            fontSize,
+            fontColor,
+            fontFamily,
+            visible: true,
+        };
+        setFigures([...figures, newFigure]);
     };
 
     const clearCanvas = () => {
@@ -185,9 +209,11 @@ export const CanvasProvider = ({ children }) => {
         draw,
         stopDrawing,
         clearCanvas,
+        // Export imagen
         imageFormat,
         setImageFormat,
         saveImage,
+        // Layers
         layers,
         setLayers,
         visibility,
@@ -199,6 +225,15 @@ export const CanvasProvider = ({ children }) => {
         toggleLayerVisibility,
         exportLayers,
         importLayers,
+        // Tool Text
+        text,
+        setText,
+        fontSize,
+        setFontSize,
+        fontColor,
+        setFontColor,
+        fontFamily,
+        setFontFamily,
     };
 
     return (
