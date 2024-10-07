@@ -45,6 +45,14 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                             </div>
                         </button>
 
+                        <button className={`rounded-md p-2 w-full ${tool === 'triangle' ? 'bg-slate-500' : ''}`}
+                            onClick={() => setTool('triangle')}>
+                            <div className="flex flex-row gap-x-2">
+                                <i className="block">🍕</i>
+                                <span>Triangulo</span>
+                            </div>
+                        </button>
+
                         <button
                             className={`rounded-md p-2 w-full ${tool === 'eraser' ? 'bg-slate-500' : ''}`}
                             onClick={() => setTool('eraser')}>
@@ -99,6 +107,14 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">⚽</i>
                                 <small className="text-[9px]">Circulo</small>
+                            </div>
+                        </button>
+
+                        <button className={`rounded-md p-2 w-full ${tool === 'triangle' ? 'bg-slate-500' : ''}`}
+                            onClick={() => setTool('triangle')}>
+                            <div className="flex flex-col gap-y-1">
+                                <i className="block">🍕</i>
+                                <small className="text-[9px]">Triangulo</small>
                             </div>
                         </button>
 

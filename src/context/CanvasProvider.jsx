@@ -57,36 +57,11 @@ export const CanvasProvider = ({ children }) => {
                 drawCircle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             } else if (tool === 'line') {
                 drawLine(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
+            } else if (tool === 'triangle') {
+                drawTriangle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             }
         }
     }, [previewPosition]);
-
-    // Se vuelve recrear todas los lienzos dentro del canvas
-    // después de mostrar la vista previa
-    const redrawFigures = () => {
-        clearCanvas();
-        figures.forEach((figure) => {
-            if (figure.visible) {
-                if (figure.tool === 'circle') {
-                    drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
-                } else if (figure.tool === 'line') {
-                    drawLine(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
-                } else if (figure.tool === 'pencil') {
-                    context.strokeStyle = figure.lineColor;
-                    context.lineWidth = figure.lineWidth;
-                    context.beginPath();
-                    figure.points.forEach((point, index) => {
-                        if (index === 0) {
-                            context.moveTo(point.x, point.y);
-                        } else {
-                            context.lineTo(point.x, point.y);
-                        }
-                    });
-                    context.stroke();
-                }
-            }
-        });
-    };
 
     // Se llama cada vez que el usuario presiona el mouse o touch táctil
     const startDrawing = (x, y) => {
@@ -138,6 +113,8 @@ export const CanvasProvider = ({ children }) => {
                 drawText(startPosition.x, startPosition.y);
             } else if (tool === 'circle') {
                 drawCircle(startPosition.x, startPosition.y, endX, endY);
+            } else if (tool === 'triangle') {
+                drawTriangle(startPosition.x, startPosition.y, endX, endY);
             } else if (tool === 'line') {
                 drawLine(startPosition.x, startPosition.y, endX, endY);
             }
@@ -162,6 +139,35 @@ export const CanvasProvider = ({ children }) => {
         setIsDrawing(false);
         setStartPosition(null);
         setPreviewPosition(null);
+    };
+
+    // Se vuelve recrear todas los lienzos dentro del canvas
+    // después de mostrar la vista previa
+    const redrawFigures = () => {
+        clearCanvas();
+        figures.forEach((figure) => {
+            if (figure.visible) {
+                if (figure.tool === 'circle') {
+                    drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+                } else if (figure.tool === 'line') {
+                    drawLine(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+                } else if (figure.tool === 'triangle') {
+                    drawTriangle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+                } else if (figure.tool === 'pencil') {
+                    context.strokeStyle = figure.lineColor;
+                    context.lineWidth = figure.lineWidth;
+                    context.beginPath();
+                    figure.points.forEach((point, index) => {
+                        if (index === 0) {
+                            context.moveTo(point.x, point.y);
+                        } else {
+                            context.lineTo(point.x, point.y);
+                        }
+                    });
+                    context.stroke();
+                }
+            }
+        });
     };
 
     const drawText = (x, y) => {
@@ -190,6 +196,21 @@ export const CanvasProvider = ({ children }) => {
         if (isPreview) context.globalAlpha = 0.5;
         context.beginPath();
         context.arc(startX, startY, radius, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+        if (isPreview) context.globalAlpha = 1.0;
+    };
+
+    const drawTriangle = (startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+        context.strokeStyle = customLineColor || lineColor;
+        context.fillStyle = customFillColor || fillColor;
+        context.lineWidth = customLineWidth || lineWidth;
+        if (isPreview) context.globalAlpha = 0.5;
+        context.beginPath();
+        context.moveTo(startX, startY);
+        context.lineTo(endX, endY);
+        context.lineTo(startX - (endX - startX), endY);
+        context.closePath();
         context.fill();
         context.stroke();
         if (isPreview) context.globalAlpha = 1.0;
