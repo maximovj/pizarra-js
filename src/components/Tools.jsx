@@ -3,7 +3,7 @@ import "./Tools.css";
 
 const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
 
-    const { tool, setTool } = useCanvas();
+    const { tool, setTool, handleToolChange, setShowTooltip, showTooltip } = useCanvas();
 
     return (
         <>
@@ -14,7 +14,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                 >
                     <div className="flex flex-col gap-y-2">
                         <button className={`rounded-md p-2 w-full ${tool === 'pencil' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('pencil')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('pencil', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-row gap-x-2">
                                 <i className="block">🖊</i>
                                 <span>Lápiz</span>
@@ -22,7 +24,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'line' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('line')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('line', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-row gap-x-2">
                                 <i className="block">🥖</i>
                                 <span>Linea</span>
@@ -30,7 +34,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'text' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('text')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('text', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-row gap-x-2">
                                 <i className="block">🔡</i>
                                 <span>Texto</span>
@@ -38,7 +44,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'circle' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('circle')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('circle', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-row gap-x-2">
                                 <i className="block">⚽</i>
                                 <span>Circulo</span>
@@ -46,7 +54,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'triangle' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('triangle')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('triangle', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-row gap-x-2">
                                 <i className="block">🍕</i>
                                 <span>Triangulo</span>
@@ -54,7 +64,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'square' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('square')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('square', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-row gap-x-2">
                                 <i className="block">🔲</i>
                                 <span>Cuadrado</span>
@@ -63,7 +75,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
 
                         <button
                             className={`rounded-md p-2 w-full ${tool === 'eraser' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('eraser')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('eraser', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-row gap-x-2">
                                 <i className="block">🗑</i>
                                 <span>Borrador</span>
@@ -87,7 +101,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                 >
                     <div className="flex flex-col">
                         <button className={`rounded-md p-2 w-full ${tool === 'pencil' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('pencil')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('pencil', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">🖊</i>
                                 <small className="text-[9px]">Lápiz</small>
@@ -95,7 +111,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'line' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('line')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('line', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">🥖</i>
                                 <small className="text-[9px]">Linea</small>
@@ -103,7 +121,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'text' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('text')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('text', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">🔡</i>
                                 <small className="text-[9px]">Texto</small>
@@ -111,7 +131,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'circle' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('circle')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('circle', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">⚽</i>
                                 <small className="text-[9px]">Circulo</small>
@@ -119,7 +141,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
                         </button>
 
                         <button className={`rounded-md p-2 w-full ${tool === 'triangle' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('triangle')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('triangle', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">🍕</i>
                                 <small className="text-[9px]">Triangulo</small>
@@ -128,7 +152,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
 
                         <button
                             className={`rounded-md p-2 w-full ${tool === 'square' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('square')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('square', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">🔲</i>
                                 <small className="text-[9px]">Cuadrado</small>
@@ -137,7 +163,9 @@ const Tools = ({ isAsideOpen, isTransitioning, handleAnimationEnd }) => {
 
                         <button
                             className={`rounded-md p-2 w-full ${tool === 'eraser' ? 'bg-slate-500' : ''}`}
-                            onClick={() => setTool('eraser')}>
+                            onClick={() => setShowTooltip(!showTooltip)}
+                            onMouseOver={(e) => handleToolChange('eraser', e)}
+                            style={{ touchAction: 'none' }}>
                             <div className="flex flex-col gap-y-1">
                                 <i className="block">🗑</i>
                                 <small className="text-[9px]">Borrador</small>

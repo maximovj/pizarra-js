@@ -27,6 +27,19 @@ export const CanvasProvider = ({ children }) => {
     const [visibility, setVisibility] = useState([true]);
     const [activeLayer, setActiveLayer] = useState(0);
 
+    const [showTooltip, setShowTooltip] = useState(false);
+    const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+
+    const handleToolChange = (selectedTool, event) => {
+        setTool(selectedTool);
+        const buttonRect = event.target.getBoundingClientRect();
+        setTooltipPosition({
+            top: buttonRect.top + window.scrollY - 10,
+            left: buttonRect.left + buttonRect.width + 10,
+        });
+        setShowTooltip(true);
+    };
+
     // Verifica que dispositivo tiene el usuario: 
     // móvil táctil o en un pc  con mouse
     useEffect(() => {
@@ -370,6 +383,14 @@ export const CanvasProvider = ({ children }) => {
         setLineColor,
         fillColor,
         setFillColor,
+        //  Tooltip Tool
+        showTooltip,
+        setShowTooltip,
+        tooltipPosition,
+        setTooltipPosition,
+        handleToolChange,
+        // Input device 
+        inputDevice,
     };
 
     return (
