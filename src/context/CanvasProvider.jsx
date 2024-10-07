@@ -151,7 +151,9 @@ export const CanvasProvider = ({ children }) => {
         clearCanvas();
         figures.forEach((figure) => {
             if (figure.visible) {
-                if (figure.tool === 'circle') {
+                if (figure.tool === 'text') {
+                    drawText(figure.startX, figure.startY, figure.endX, figure.endY, false);
+                } else if (figure.tool === 'circle') {
                     drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 } else if (figure.tool === 'line') {
                     drawLine(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
