@@ -27,6 +27,13 @@ const Canvas = () => {
         setFontColor,
         fontFamily,
         setFontFamily,
+        // Tool Circle
+        lineWidth,
+        setLineWidth,
+        lineColor,
+        setLineColor,
+        fillColor,
+        setFillColor,
     } = useCanvas();
 
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
@@ -132,6 +139,26 @@ const Canvas = () => {
                     <option value="Times New Roman">Times New Roman</option>
                     <option value="Courier New">Courier New</option>
                 </select>
+            </div>
+        )}
+
+        {/* Controles de texto */}
+        {tool === 'circle' && (
+            <div className="mb-2">
+                <div className="flex mb-2">
+                    <div className="flex items-center mb-2">
+                        <label className="mr-2">Grosor: {lineWidth}</label>
+                        <input type="range" min="1" max="10" value={lineWidth} onChange={(e) => setLineWidth(e.target.value)} className="w-1/2" />
+                    </div>
+                    <div className="flex items-center mr-4">
+                        <label className="mr-2">Color de línea:</label>
+                        <input type="color" value={lineColor} onChange={(e) => setLineColor(e.target.value)} />
+                    </div>
+                    <div className="flex items-center">
+                        <label className="mr-2">Color de fondo:</label>
+                        <input type="color" value={fillColor} onChange={(e) => setFillColor(e.target.value)} />
+                    </div>
+                </div>
             </div>
         )}
 

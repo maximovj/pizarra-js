@@ -45,6 +45,40 @@ export const CanvasProvider = ({ children }) => {
         setContext(ctx);
     }, [layers, visibility]);
 
+    useEffect(() => {
+        if (previewPosition && startPosition) {
+            clearCanvas();
+            redrawFigures();
+
+            if (tool === 'circle') {
+                drawCircle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
+            }
+        }
+    }, [previewPosition]);
+
+    const redrawFigures = () => {
+        clearCanvas();
+        figures.forEach((figure) => {
+            if (figure.visible) {
+                if (figure.tool === 'circle') {
+                    drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+                } else if (figure.tool === 'pencil') {
+                    context.strokeStyle = figure.lineColor;
+                    context.lineWidth = figure.lineWidth;
+                    context.beginPath();
+                    figure.points.forEach((point, index) => {
+                        if (index === 0) {
+                            context.moveTo(point.x, point.y);
+                        } else {
+                            context.lineTo(point.x, point.y);
+                        }
+                    });
+                    context.stroke();
+                }
+            }
+        });
+    };
+
     const startDrawing = (x, y) => {
         context.beginPath();
         context.moveTo(x, y);
@@ -90,6 +124,8 @@ export const CanvasProvider = ({ children }) => {
 
             if (tool === 'text') {
                 drawText(startPosition.x, startPosition.y);
+            } else if (tool === 'circle') {
+                drawCircle(startPosition.x, startPosition.y, endX, endY);
             }
 
             if (tool !== 'pencil') {
@@ -114,6 +150,8 @@ export const CanvasProvider = ({ children }) => {
         setPreviewPosition(null);
     };
 
+
+
     const drawText = (x, y) => {
         context.font = `${fontSize}px ${fontFamily}`;
         context.fillStyle = fontColor;
@@ -130,6 +168,19 @@ export const CanvasProvider = ({ children }) => {
             visible: true,
         };
         setFigures([...figures, newFigure]);
+    };
+
+    const drawCircle = (startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+        const radius = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
+        context.strokeStyle = customLineColor || lineColor;
+        context.fillStyle = customFillColor || fillColor;
+        context.lineWidth = customLineWidth || lineWidth;
+        if (isPreview) context.globalAlpha = 0.5;
+        context.beginPath();
+        context.arc(startX, startY, radius, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+        if (isPreview) context.globalAlpha = 1.0;
     };
 
     const clearCanvas = () => {
@@ -213,12 +264,7 @@ export const CanvasProvider = ({ children }) => {
         context,
         tool,
         setTool,
-        lineWidth,
-        setLineWidth,
-        lineColor,
-        setLineColor,
-        fillColor,
-        setFillColor,
+
         figures,
         setFigures,
         startDrawing,
@@ -251,6 +297,13 @@ export const CanvasProvider = ({ children }) => {
         setFontColor,
         fontFamily,
         setFontFamily,
+        /// Tool Circle
+        lineWidth,
+        setLineWidth,
+        lineColor,
+        setLineColor,
+        fillColor,
+        setFillColor,
     };
 
     return (
