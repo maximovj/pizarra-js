@@ -128,6 +128,22 @@ export const CanvasProvider = ({ children }) => {
         setActiveLayer(layers.length);
     };
 
+    const deleteLayer = () => {
+        // Verificar si el índice es válido
+        if (activeLayer >= 1 && activeLayer < layers.length) {
+            setLayers(prevLayers => {
+                const newLayers = [...prevLayers]; // Hacemos una copia del array original
+                newLayers.splice(activeLayer, 1); // Eliminamos el elemento en el índice activeLayer
+                return newLayers; // Devolvemos la nueva lista de capas
+            });
+
+            // También podrías querer actualizar activeLayer para evitar errores
+            setActiveLayer(prevLayer => (prevLayer > 0 ? prevLayer - 1 : 0));
+        } else {
+            console.log("Índice de capa no válido");
+        }
+    };
+
     const changeLayer = (index) => {
         setActiveLayer(index);
     };
@@ -195,6 +211,7 @@ export const CanvasProvider = ({ children }) => {
         activeLayer,
         setActiveLayer,
         addLayer,
+        deleteLayer,
         changeLayer,
         toggleLayerVisibility,
         exportLayers,
