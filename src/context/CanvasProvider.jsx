@@ -61,6 +61,13 @@ export const CanvasProvider = ({ children }) => {
         setContext(ctx);
     }, [layers, visibility]);
 
+
+    /* The above code snippet is a `useEffect` hook in a React component that is triggered whenever the
+    `previewPosition` state variable changes. Inside the `useEffect`, it checks if both
+    `previewPosition` and `startPosition` are truthy values. If they are, it then clears the canvas,
+    redraws existing figures, and based on the selected `tool`, it draws a preview of the shape
+    being created (circle, line, square, triangle, or pencil drawing) using the `drawCircle`,
+    `drawLine`, `drawSquare`, `drawTriangle`, or `drawPencil */
     // Crea una vista previa para cada dibujo realizado con el mouse
     useEffect(() => {
         if (previewPosition && startPosition) {
@@ -81,6 +88,11 @@ export const CanvasProvider = ({ children }) => {
         }
     }, [previewPosition]);
 
+
+    /**
+     * The function `startDrawing` initializes drawing with a pencil tool in a JavaScript React
+     * application.
+     */
     // Se llama cada vez que el usuario presiona el mouse o touch táctil
     const startDrawing = (x, y) => {
         context.beginPath();
@@ -127,6 +139,15 @@ export const CanvasProvider = ({ children }) => {
         }
     };
 
+
+    /**
+     * The `draw` function in JavaScript React handles drawing functionality based on the selected tool
+     * (pencil or eraser) and updates the drawing canvas accordingly.
+     * @returns The `draw` function returns different actions based on the conditions met within the
+     * function. If `isDrawing` and `startPosition` are both false, then nothing is returned as the
+     * function exits early. If the `tool` is set to 'pencil', the function updates the canvas with the
+     * drawn line and updates the pencil points, start position, and preview position. If the `tool`
+     */
     // Se llama cada vez que el usuario mueve el mouse o touch táctil
     const draw = (e) => {
         if (!isDrawing && !startPosition) return;
@@ -159,6 +180,11 @@ export const CanvasProvider = ({ children }) => {
         }
     };
 
+
+    /**
+     * The function `stopDrawing` handles the logic for stopping the drawing process and saving the
+     * drawn figures based on the selected tool in a JavaScript React application.
+     */
     // Se llama cada vez que el usuario suelta el mouse o touch táctil
     const stopDrawing = (e) => {
         if (startPosition) {
@@ -215,6 +241,10 @@ export const CanvasProvider = ({ children }) => {
         setPencil(null);
     };
 
+    /**
+     * The function redraws various figures on a canvas based on their properties such as type,
+     * position, color, and size.
+     */
     // Se vuelve recrear todas los lienzos dentro del canvas
     // después de mostrar la vista previa
     const redrawFigures = () => {
