@@ -89,11 +89,6 @@ export const CanvasProvider = ({ children }) => {
         setStartPosition({ x, y });
         setPreviewPosition({ x, y });
 
-        console.log("TEST 0.1 | pencil => ", pencil);
-        console.log("TEST 0.2 | figures => ", figures);
-        console.log("TEST 0.3 | startPosition => ", startPosition);
-        console.log("TEST 0.4 | previewPosition => ", previewPosition);
-
         if (tool === 'pencil') {
             const points = [{ x: x, y: y }, { x, y }];
             context.strokeStyle = lineColor;
@@ -162,16 +157,10 @@ export const CanvasProvider = ({ children }) => {
         } else if (startPosition) {
             setPreviewPosition({ x, y });
         }
-        console.log("TEST 1.1 | pencil => ", pencil);
-        console.log("TEST 1.2 | figures => ", figures);
-        console.log("TEST 1.3 | startPosition => ", startPosition);
-        console.log("TEST 1.4 | previewPosition => ", previewPosition);
     };
 
     // Se llama cada vez que el usuario suelta el mouse o touch táctil
     const stopDrawing = (e) => {
-        console.log('TEST 2 | pencil?.points?.length => ', pencil?.points?.length);
-        console.log("TEST 3 | pencil =>", pencil);
         if (startPosition) {
             const endX = e.nativeEvent.offsetX;
             const endY = e.nativeEvent.offsetY;
@@ -219,7 +208,6 @@ export const CanvasProvider = ({ children }) => {
 
         }
 
-        console.log("TEST 4 | figures => ", figures);
         context.closePath();
         setIsDrawing(false);
         setStartPosition(null);
