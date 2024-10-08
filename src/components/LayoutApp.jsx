@@ -4,6 +4,7 @@ import { CanvasProvider } from "../context/CanvasProvider";
 import Header from "./Header";
 import ToolBar from "./ToolBar";
 import Footer from "./Footer";
+import Layers from "./Layers";
 
 const LayoutApp = () => {
     const [isAsideOpen, setIsAsideOpen] = useState(true);
@@ -30,6 +31,8 @@ const LayoutApp = () => {
                     <main className="flex-1 p-6 bg-white">
                         <Outlet />
                     </main>
+
+                    <Layers handleAnimationEnd={handleAnimationEnd} />
                 </div>
 
                 <Footer />
