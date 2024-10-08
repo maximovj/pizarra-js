@@ -87,28 +87,24 @@ export const CanvasProvider = ({ children }) => {
         context.moveTo(x, y);
         setIsDrawing(true);
         setStartPosition({ x, y });
-    };
+        setPreviewPosition({ x, y });
 
-    // Se llama cada vez que el usuario mueve el mouse o touch táctil
-    const draw = (e) => {
-        if (!isDrawing && !startPosition) return;
-
-        const x = e.nativeEvent.offsetX;
-        const y = e.nativeEvent.offsetY;
-
-        context.lineWidth = lineWidth;
+        console.log("TEST 0.1 | pencil => ", pencil);
+        console.log("TEST 0.2 | figures => ", figures);
+        console.log("TEST 0.3 | startPosition => ", startPosition);
+        console.log("TEST 0.4 | previewPosition => ", previewPosition);
 
         if (tool === 'pencil') {
-            const points = [{ x: startPosition.x, y: startPosition.y }, { x, y }];
+            const points = [{ x: x, y: y }, { x, y }];
             context.strokeStyle = lineColor;
             context.lineTo(x, y);
             context.stroke();
 
             const newFigure = {
                 tool,
-                startX: startPosition.x,
-                startY: startPosition.y,
-                points: [{ x: startPosition.x, y: startPosition.y }, { x, y }],
+                startX: x,
+                startY: y,
+                points: [{ x: x, y: y }, { x, y }],
                 lineColor,
                 fillColor,
                 lineWidth,
@@ -133,6 +129,32 @@ export const CanvasProvider = ({ children }) => {
 
             setStartPosition({ x, y });
             setPreviewPosition({ x, y });
+        }
+    };
+
+    // Se llama cada vez que el usuario mueve el mouse o touch táctil
+    const draw = (e) => {
+        if (!isDrawing && !startPosition) return;
+
+        const x = e.nativeEvent.offsetX;
+        const y = e.nativeEvent.offsetY;
+
+        context.lineWidth = lineWidth;
+
+        if (tool === 'pencil') {
+            const points = [{ x: startPosition.x, y: startPosition.y }, { x, y }];
+            context.strokeStyle = lineColor;
+            context.lineTo(x, y);
+            context.stroke();
+            setPencil({
+                ...pencil,
+                points: [
+                    ...pencil.points,
+                    ...points
+                ]
+            });
+            setStartPosition({ x, y });
+            setPreviewPosition({ x, y });
         } else if (tool === 'eraser') {
             context.strokeStyle = 'white';
             context.lineTo(x, y);
@@ -140,36 +162,25 @@ export const CanvasProvider = ({ children }) => {
         } else if (startPosition) {
             setPreviewPosition({ x, y });
         }
+        console.log("TEST 1.1 | pencil => ", pencil);
+        console.log("TEST 1.2 | figures => ", figures);
+        console.log("TEST 1.3 | startPosition => ", startPosition);
+        console.log("TEST 1.4 | previewPosition => ", previewPosition);
     };
 
     // Se llama cada vez que el usuario suelta el mouse o touch táctil
     const stopDrawing = (e) => {
-        if (tool === 'text' && !text) return;
-
+        console.log('TEST 2 | pencil?.points?.length => ', pencil?.points?.length);
+        console.log("TEST 3 | pencil =>", pencil);
         if (startPosition) {
             const endX = e.nativeEvent.offsetX;
             const endY = e.nativeEvent.offsetY;
-
-            if (tool === 'pencil') {
-                setPencil({ ...pencil, endX, endY });
-                setFigures([...figures, pencil]);
-                drawPencil(pencil.points, startPosition.x, startPosition.y, endX, endY);
-            } else if (tool === 'text') {
-                drawText(text, startPosition.x, startPosition.y, fontFamily, fontSize, fontColor);
-            } else if (tool === 'circle') {
-                drawCircle(startPosition.x, startPosition.y, endX, endY);
-            } else if (tool === 'triangle') {
-                drawTriangle(startPosition.x, startPosition.y, endX, endY);
-            } else if (tool === 'square') {
-                drawSquare(startPosition.x, startPosition.y, endX, endY);
-            } else if (tool === 'line') {
-                drawLine(startPosition.x, startPosition.y, endX, endY);
-            }
 
             const figure = {
                 tool,
                 startX: startPosition.x,
                 startY: startPosition.y,
+                points: pencil?.points || [],
                 endX,
                 endY,
                 lineColor,
@@ -182,11 +193,33 @@ export const CanvasProvider = ({ children }) => {
                 visible: true,
             };
 
-            figure.points = pencil?.points || [];
-            setFigures([...figures, figure]);
+            if (tool === 'pencil') {
+                setPencil({ ...pencil, endX, endY });
+                setFigures([...figures, pencil]);
+                drawPencil(pencil.points, startPosition.x, startPosition.y, endX, endY);
+                setFigures([...figures, figure]);
+            } else if (tool === 'text') {
+                if (text) {
+                    drawText(text, startPosition.x, startPosition.y, fontFamily, fontSize, fontColor);
+                    setFigures([...figures, figure]);
+                }
+            } else if (tool === 'circle') {
+                drawCircle(startPosition.x, startPosition.y, endX, endY);
+                setFigures([...figures, figure]);
+            } else if (tool === 'triangle') {
+                drawTriangle(startPosition.x, startPosition.y, endX, endY);
+                setFigures([...figures, figure]);
+            } else if (tool === 'square') {
+                drawSquare(startPosition.x, startPosition.y, endX, endY);
+                setFigures([...figures, figure]);
+            } else if (tool === 'line') {
+                drawLine(startPosition.x, startPosition.y, endX, endY);
+                setFigures([...figures, figure]);
+            }
+
         }
 
-        console.log(figures);
+        console.log("TEST 4 | figures => ", figures);
         context.closePath();
         setIsDrawing(false);
         setStartPosition(null);
@@ -219,9 +252,11 @@ export const CanvasProvider = ({ children }) => {
 
     // * figuras
     const drawText = (text, startX, startY, customFontFamily = "Arial", customFontSize = 20, customFontColor = "#000000") => {
-        context.font = `${customFontFamily || fontSize}px ${customFontSize || fontFamily}`;
+        context.font = `${customFontSize || fontSize}px ${customFontFamily || fontFamily}`;
         context.fillStyle = customFontColor || fontColor;
+        context.globalAlpha = 1.0;
         context.fillText(text, startX, startY);
+        context.globalAlpha = 1.0;
     };
 
     const drawSquare = (startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
@@ -283,13 +318,15 @@ export const CanvasProvider = ({ children }) => {
         context.lineWidth = customLineWidth || lineWidth;
         if (isPreview) context.globalAlpha = 0.5;
         context.beginPath();
-        points.forEach((point, index) => {
-            if (index === 0) {
-                context.moveTo(point.x, point.y);
-            } else {
-                context.lineTo(point.x, point.y);
-            }
-        });
+        if (points?.length > 0) {
+            points.forEach((point, index) => {
+                if (index === 0) {
+                    context.moveTo(point.x, point.y);
+                } else {
+                    context.lineTo(point.x, point.y);
+                }
+            });
+        }
         context.stroke();
         if (!isPreview) context.closePath();
         if (isPreview) context.globalAlpha = 1.0;
