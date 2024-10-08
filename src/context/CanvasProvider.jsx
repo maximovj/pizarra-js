@@ -15,6 +15,7 @@ export const CanvasProvider = ({ children }) => {
     const [previewPosition, setPreviewPosition] = useState(null);
     const [imageFormat, setImageFormat] = useState('png');
     const [inputDevice, setInputDevice] = useState('mouse');
+    const [pencil, setPencil] = useState(null);
 
     // Tool Text
     const [text, setText] = useState('');
@@ -74,6 +75,8 @@ export const CanvasProvider = ({ children }) => {
                 drawSquare(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             } else if (tool === 'triangle') {
                 drawTriangle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
+            } else if (tool === 'pencil') {
+                drawPencil(pencil?.points, startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             }
         }
     }, [previewPosition]);
@@ -96,19 +99,36 @@ export const CanvasProvider = ({ children }) => {
         context.lineWidth = lineWidth;
 
         if (tool === 'pencil') {
+            const points = [{ x: startPosition.x, y: startPosition.y }, { x, y }];
             context.strokeStyle = lineColor;
             context.lineTo(x, y);
             context.stroke();
 
             const newFigure = {
-                tool: 'pencil',
+                tool,
+                startX: startPosition.x,
+                startY: startPosition.y,
                 points: [{ x: startPosition.x, y: startPosition.y }, { x, y }],
                 lineColor,
+                fillColor,
                 lineWidth,
                 visible: true,
             };
-            setFigures([...figures, newFigure]);
+
+            if (!pencil?.points) {
+                setPencil(newFigure);
+            } else {
+                setPencil({
+                    ...pencil,
+                    points: [
+                        ...pencil.points,
+                        ...points
+                    ]
+                })
+            }
+
             setStartPosition({ x, y });
+            setPreviewPosition({ x, y });
         } else if (tool === 'eraser') {
             context.strokeStyle = 'white';
             context.lineTo(x, y);
@@ -124,7 +144,11 @@ export const CanvasProvider = ({ children }) => {
             const endX = e.nativeEvent.offsetX;
             const endY = e.nativeEvent.offsetY;
 
-            if (tool === 'text') {
+            if (tool === 'pencil') {
+                setPencil({ ...pencil, endX, endY });
+                setFigures([...figures, pencil]);
+                drawPencil(pencil.points, startPosition.x, startPosition.y, endX, endY);
+            } else if (tool === 'text') {
                 drawText(startPosition.x, startPosition.y);
             } else if (tool === 'circle') {
                 drawCircle(startPosition.x, startPosition.y, endX, endY);
@@ -136,26 +160,28 @@ export const CanvasProvider = ({ children }) => {
                 drawLine(startPosition.x, startPosition.y, endX, endY);
             }
 
-            if (tool !== 'pencil') {
-                const figure = {
-                    tool,
-                    startX: startPosition.x,
-                    startY: startPosition.y,
-                    endX,
-                    endY,
-                    lineColor,
-                    fillColor,
-                    lineWidth,
-                    visible: true,
-                };
-                setFigures([...figures, figure]);
-            }
+            const figure = {
+                tool,
+                startX: startPosition.x,
+                startY: startPosition.y,
+                endX,
+                endY,
+                lineColor,
+                fillColor,
+                lineWidth,
+                visible: true,
+            };
+
+            figure.points = pencil?.points || [];
+            setFigures([...figures, figure]);
+
         }
 
         context.closePath();
         setIsDrawing(false);
         setStartPosition(null);
         setPreviewPosition(null);
+        setPencil(null);
     };
 
     // Se vuelve recrear todas los lienzos dentro del canvas
@@ -175,22 +201,13 @@ export const CanvasProvider = ({ children }) => {
                 } else if (figure.tool === 'triangle') {
                     drawTriangle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 } else if (figure.tool === 'pencil') {
-                    context.strokeStyle = figure.lineColor;
-                    context.lineWidth = figure.lineWidth;
-                    context.beginPath();
-                    figure.points.forEach((point, index) => {
-                        if (index === 0) {
-                            context.moveTo(point.x, point.y);
-                        } else {
-                            context.lineTo(point.x, point.y);
-                        }
-                    });
-                    context.stroke();
+                    drawPencil(figure.points, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 }
             }
         });
     };
 
+    // * figuras
     const drawText = (x, y) => {
         context.font = `${fontSize}px ${fontFamily}`;
         context.fillStyle = fontColor;
@@ -259,6 +276,24 @@ export const CanvasProvider = ({ children }) => {
         context.moveTo(startX, startY);
         context.lineTo(endX, endY);
         context.stroke();
+        if (isPreview) context.globalAlpha = 1.0;
+    };
+
+    const drawPencil = (points, startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+        context.strokeStyle = customLineColor || lineColor;
+        context.fillStyle = customFillColor || fillColor;
+        context.lineWidth = customLineWidth || lineWidth;
+        if (isPreview) context.globalAlpha = 0.5;
+        context.beginPath();
+        points.forEach((point, index) => {
+            if (index === 0) {
+                context.moveTo(point.x, point.y);
+            } else {
+                context.lineTo(point.x, point.y);
+            }
+        });
+        context.stroke();
+        if (!isPreview) context.closePath();
         if (isPreview) context.globalAlpha = 1.0;
     };
 

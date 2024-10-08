@@ -70,7 +70,6 @@ const MouseOptionsToolBar = () => {
                                     value={text}
                                     onChange={(e) => setText(e.target.value)}
                                     placeholder="Escribe el texto aquí..."
-                                    onFocus={true}
                                     className="w-full text-black py-1 px-2 rounded-md text-xs"
                                 />
                             </div>
