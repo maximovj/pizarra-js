@@ -112,6 +112,7 @@ export const CanvasProvider = ({ children }) => {
                 lineColor,
                 fillColor,
                 lineWidth,
+                text,
                 visible: true,
             };
 
@@ -149,7 +150,7 @@ export const CanvasProvider = ({ children }) => {
                 setFigures([...figures, pencil]);
                 drawPencil(pencil.points, startPosition.x, startPosition.y, endX, endY);
             } else if (tool === 'text') {
-                drawText(startPosition.x, startPosition.y);
+                drawText(text, startPosition.x, startPosition.y);
             } else if (tool === 'circle') {
                 drawCircle(startPosition.x, startPosition.y, endX, endY);
             } else if (tool === 'triangle') {
@@ -169,6 +170,7 @@ export const CanvasProvider = ({ children }) => {
                 lineColor,
                 fillColor,
                 lineWidth,
+                text,
                 visible: true,
             };
 
@@ -191,7 +193,7 @@ export const CanvasProvider = ({ children }) => {
         figures.forEach((figure) => {
             if (figure.visible) {
                 if (figure.tool === 'text') {
-                    drawText(figure.startX, figure.startY, figure.endX, figure.endY, false);
+                    drawText(figure.text, figure.startX, figure.startY, figure.endX, figure.endY, false);
                 } else if (figure.tool === 'circle') {
                     drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
                 } else if (figure.tool === 'line') {
@@ -208,7 +210,7 @@ export const CanvasProvider = ({ children }) => {
     };
 
     // * figuras
-    const drawText = (x, y) => {
+    const drawText = (text, x, y) => {
         context.font = `${fontSize}px ${fontFamily}`;
         context.fillStyle = fontColor;
         context.fillText(text, x, y);
