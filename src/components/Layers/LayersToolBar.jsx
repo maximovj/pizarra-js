@@ -9,7 +9,7 @@ import { useCanvas } from "../../hooks/useCanvas";
 */
 
 const LayersToolBar = () => {
-    const { layers, addLayer, activeLayer, setActiveLayer } = useCanvas();
+    const { layers, addLayer, activeLayer, changeLayer, toggleLayerVisibility, visibility } = useCanvas();
     return (
         <div className="flex flex-col gap-y-2 overflow-auto h-screen">
             <button onClick={addLayer} className="bg-black">
@@ -17,10 +17,13 @@ const LayersToolBar = () => {
             </button>
             <div className="flex flex-col gap-4 items-center">
                 {layers.map((x, index) => <>
-                    <div key={index}
-                        onClick={() => setActiveLayer(index)}
-                        className={`border-2 ${index === activeLayer ? "border-green-500" : "border-gray-100"} rounded-md w-32 text-center p-4 ${index === activeLayer ? "bg-sky-700" : "bg-sky-400"} hover:bg-sky-500 hover:cursor-pointer`}>
-                        <small className={`${index === activeLayer ? "text-white" : "text-black"}`}>Capa {index + 1}</small>
+                    <div key={index}>
+                        <div onClick={() => changeLayer(index)} className={`border-2 ${index === activeLayer ? "border-green-500" : "border-gray-100"} rounded-md w-32 text-center p-4 ${index === activeLayer ? "bg-sky-700" : "bg-sky-400"} hover:bg-sky-500 hover:cursor-pointer`}>
+                            <small className={`${index === activeLayer ? "text-white" : "text-black"}`}>Capa {index + 1}</small>
+                        </div>
+                        <small className="block cursor-pointer mt-2" onClick={() => toggleLayerVisibility(index)}>
+                            {visibility[index] ? '🙈 Ocultar' : '🐵 Mostrar'}
+                        </small>
                     </div>
                 </>)}
             </div>
