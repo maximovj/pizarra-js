@@ -16,13 +16,13 @@ const Header = ({ toggleAside }) => {
                     >
                         🍔
                     </button>
-                    <h1 className="text-2xl text-white">Pizarra JS</h1>
+                    <h1 className="text-sm font-bold sm:text-2xl md:text-2xl text-white">Pizarra JS</h1>
                 </div>
             </div>
             <div className="border-0">
                 <div className=" bg-stone-800 p-2 text-sm rounded-md">
                     <div className="flex justify-start items-center gap-x-1">
-                        <span className="text-white">Capa {activeLayer + 1}</span>
+                        <span className="text-white font-bold text-base">Capa {activeLayer + 1}</span>
                         <select className="w-14 h-6 text-sm rounded-sm" onChange={(e) => setImageFormat(e.target.value)} >
                             <option value="png">PNG</option>
                             <option value="jpg">JPG</option>

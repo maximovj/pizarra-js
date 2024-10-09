@@ -46,18 +46,18 @@ const TouchOptionsToolBar = () => {
     return (
         <>
             {inputDevice === 'touch' && (
-                <div className="bg-zinc-700 p-2 rounded-sm mb-4">
+                <div className="bg-zinc-700 p-2 sm:p-4 rounded-lg mb-4 w-full" style={{ width: 'calc(100vw - 60px)' }}>
                     {/* Controles para herramienta capa */}
                     <h4 className="my-2 font-bold text-white">Más opciones:</h4>
-                    {tool === 'layers' && (<div>
-                        <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg justify-start mb-2">
+                    {tool === 'layers' && (<div className="w-full">
+                        <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg justify-start mb-2 w-full" >
                             <div className="relative flex items-center justify-center ">
                                 <button onClick={addLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
                                     +
                                 </button>
                             </div>
                             <div className="relative flex items-center justify-center ">
-                                <button onClick={deleteLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
+                                <button onClick={deleteLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-3 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
                                     -
                                 </button>
                             </div>
@@ -87,11 +87,11 @@ const TouchOptionsToolBar = () => {
                                 </label>
                             </div>
                         </div>
-                        <div className="flex overflow-auto w-[400px] md:w-[540px] lg:w-[970px] mb-2">
+                        <div className="flex overflow-auto mb-2 w-full" >
                             {layers.map((_, index) => (
-                                <div key={index} className="flex items-center ml-2">
+                                <div key={index} className="flex items-center">
                                     <div onClick={() => changeLayer(index)} className={`flex justify-start rounded-md w-max h-[38px]
-                                        border-2
+                                        border-2 mr-2
                                         ${index === activeLayer ? "bg-sky-400" : "bg-sky-700"}
                                         ${index === activeLayer ? "border-green-500" : "border-gray-100"}
                                         hover:bg-sky-500 hover:cursor-pointer

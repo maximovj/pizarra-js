@@ -83,13 +83,6 @@ const ExpandedToolBar = () => {
                 </div>
             </button>
 
-            <button className={`rounded-md p-2 w-full ${tool === 'layers' ? 'bg-slate-500' : ''}`}
-                onClick={() => setTool('layers')}>
-                <div className="flex flex-row gap-x-2">
-                    <i className="block">🧅</i>
-                    <span>Capas</span>
-                </div>
-            </button>
         </div>
     )
 }
