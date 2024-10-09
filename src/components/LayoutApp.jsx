@@ -22,7 +22,7 @@ const LayoutApp = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <CanvasProvider>
-                <Header toggleAside={toggleAside} />
+                <Header toggleAside={toggleAside} isAsideOpen={isAsideOpen} />
 
                 <div className="flex flex-1 overflow-hidden">
                     {/* El aside se oculta/ muestra con una animación personalizada */}

@@ -1,6 +1,7 @@
+import { BsAppIndicator, BsFillGridFill } from "react-icons/bs";
 import { useCanvas } from "../hooks/useCanvas"
 
-const Header = ({ toggleAside }) => {
+const Header = ({ toggleAside, isAsideOpen }) => {
     const { saveImage, setImageFormat, activeLayer, resizeCanvas, setResizeCanvas } = useCanvas();
     const handleToggle = () => {
         toggleAside();
@@ -14,7 +15,7 @@ const Header = ({ toggleAside }) => {
                         className="bg-white text-blue-500 p-2 rounded"
                         onClick={handleToggle}
                     >
-                        🍔
+                        {!isAsideOpen ? (<BsFillGridFill></BsFillGridFill>) : (<BsAppIndicator></BsAppIndicator>)}
                     </button>
                     <h1 className="text-sm font-bold sm:text-2xl md:text-2xl text-white">Pizarra JS</h1>
                 </div>

@@ -1,4 +1,6 @@
 import { useCanvas } from "../../hooks/useCanvas";
+import { MdOutlineLinearScale } from "react-icons/md";
+import { BsTriangle, BsEraser, BsPencil, BsLayers, BsTextareaT, BsCircle, BsSquare } from "react-icons/bs";
 
 /* 
 -------------------------------------------------------------
@@ -16,8 +18,8 @@ const CompactToolBar = () => {
                 <button
                     className={`rounded-md p-2 w-full ${tool === 'layers' ? 'bg-slate-500' : ''}`}
                     onClick={() => setTool('layers')}>
-                    <div className="flex flex-col gap-y-1">
-                        <i className="block">🧅</i>
+                    <div className="flex flex-col items-center gap-y-1">
+                        <BsLayers className="block text-xl" />
                         <small className="text-[9px]">Capas</small>
                     </div>
                 </button>
@@ -27,8 +29,8 @@ const CompactToolBar = () => {
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('pencil', e)}
                 style={{ touchAction: 'none' }}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">🖊</i>
+                <div className="flex flex-col items-center gap-y-1">
+                    <BsPencil className="block text-xl" />
                     <small className="text-[9px]">Lápiz</small>
                 </div>
             </button>
@@ -37,8 +39,8 @@ const CompactToolBar = () => {
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('line', e)}
                 style={{ touchAction: 'none' }}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">🥖</i>
+                <div className="flex flex-col items-center gap-y-1">
+                    <MdOutlineLinearScale className="block text-xl" />
                     <small className="text-[9px]">Linea</small>
                 </div>
             </button>
@@ -47,8 +49,8 @@ const CompactToolBar = () => {
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('text', e)}
                 style={{ touchAction: 'none' }}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">🔡</i>
+                <div className="flex flex-col items-center gap-y-1">
+                    <BsTextareaT className="block text-xl" />
                     <small className="text-[9px]">Texto</small>
                 </div>
             </button>
@@ -57,8 +59,8 @@ const CompactToolBar = () => {
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('circle', e)}
                 style={{ touchAction: 'none' }}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">⚽</i>
+                <div className="flex flex-col items-center gap-y-1">
+                    <BsCircle className="block text-xl" />
                     <small className="text-[9px]">Circulo</small>
                 </div>
             </button>
@@ -67,8 +69,8 @@ const CompactToolBar = () => {
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('triangle', e)}
                 style={{ touchAction: 'none' }}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">🍕</i>
+                <div className="flex flex-col items-center gap-y-1">
+                    <BsTriangle className="block text-xl" />
                     <small className="text-[9px]">Triangulo</small>
                 </div>
             </button>
@@ -78,8 +80,8 @@ const CompactToolBar = () => {
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('square', e)}
                 style={{ touchAction: 'none' }}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">🔲</i>
+                <div className="flex flex-col items-center gap-y-1">
+                    <BsSquare className="block text-xl" />
                     <small className="text-[9px]">Cuadrado</small>
                 </div>
             </button>
@@ -89,8 +91,8 @@ const CompactToolBar = () => {
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('eraser', e)}
                 style={{ touchAction: 'none' }}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">🗑</i>
+                <div className="flex flex-col items-center gap-y-1">
+                    <BsEraser className="block text-xl" />
                     <small className="text-[9px]">Borrador</small>
                 </div>
             </button>

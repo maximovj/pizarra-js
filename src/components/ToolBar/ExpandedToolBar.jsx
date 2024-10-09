@@ -1,4 +1,6 @@
 import { useCanvas } from "../../hooks/useCanvas";
+import { MdOutlineLinearScale } from "react-icons/md";
+import { BsTriangle, BsEraser, BsPencil, BsLayers, BsTextareaT, BsCircle, BsSquare } from "react-icons/bs";
 
 /* 
 -------------------------------------------------------------
@@ -9,7 +11,7 @@ import { useCanvas } from "../../hooks/useCanvas";
 */
 
 const ExpandedToolBar = () => {
-    const { tool, setTool, handleToolChange, setShowTooltip, showTooltip } = useCanvas();
+    const { tool, handleToolChange, setShowTooltip, showTooltip } = useCanvas();
     return (
         <div className="flex flex-col gap-y-2">
             <button className={`rounded-md p-2 w-full ${tool === 'pencil' ? 'bg-slate-500' : ''}`}
@@ -17,7 +19,7 @@ const ExpandedToolBar = () => {
                 onMouseOver={(e) => handleToolChange('pencil', e)}
                 style={{ touchAction: 'none' }}>
                 <div className="flex flex-row gap-x-2">
-                    <i className="block">🖊</i>
+                    <BsPencil className="block text-2xl"></BsPencil>
                     <span>Lápiz</span>
                 </div>
             </button>
@@ -27,7 +29,7 @@ const ExpandedToolBar = () => {
                 onMouseOver={(e) => handleToolChange('line', e)}
                 style={{ touchAction: 'none' }}>
                 <div className="flex flex-row gap-x-2">
-                    <i className="block">🥖</i>
+                    <MdOutlineLinearScale className="block text-2xl" />
                     <span>Linea</span>
                 </div>
             </button>
@@ -37,7 +39,7 @@ const ExpandedToolBar = () => {
                 onMouseOver={(e) => handleToolChange('text', e)}
                 style={{ touchAction: 'none' }}>
                 <div className="flex flex-row gap-x-2">
-                    <i className="block">🔡</i>
+                    <BsTextareaT className="block text-2xl" />
                     <span>Texto</span>
                 </div>
             </button>
@@ -47,7 +49,7 @@ const ExpandedToolBar = () => {
                 onMouseOver={(e) => handleToolChange('circle', e)}
                 style={{ touchAction: 'none' }}>
                 <div className="flex flex-row gap-x-2">
-                    <i className="block">⚽</i>
+                    <BsCircle className="block text-2xl" />
                     <span>Circulo</span>
                 </div>
             </button>
@@ -57,7 +59,7 @@ const ExpandedToolBar = () => {
                 onMouseOver={(e) => handleToolChange('triangle', e)}
                 style={{ touchAction: 'none' }}>
                 <div className="flex flex-row gap-x-2">
-                    <i className="block">🍕</i>
+                    <BsTriangle className="block text-2xl" />
                     <span>Triangulo</span>
                 </div>
             </button>
@@ -67,7 +69,7 @@ const ExpandedToolBar = () => {
                 onMouseOver={(e) => handleToolChange('square', e)}
                 style={{ touchAction: 'none' }}>
                 <div className="flex flex-row gap-x-2">
-                    <i className="block">🔲</i>
+                    <BsSquare className="block text-2xl" />
                     <span>Cuadrado</span>
                 </div>
             </button>
@@ -78,7 +80,7 @@ const ExpandedToolBar = () => {
                 onMouseOver={(e) => handleToolChange('eraser', e)}
                 style={{ touchAction: 'none' }}>
                 <div className="flex flex-row gap-x-2">
-                    <i className="block">🗑</i>
+                    <BsEraser className="block text-2xl" />
                     <span>Borrador</span>
                 </div>
             </button>

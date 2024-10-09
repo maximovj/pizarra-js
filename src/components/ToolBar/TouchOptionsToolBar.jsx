@@ -1,3 +1,4 @@
+import { BsEyeFill, BsEyeSlashFill, BsFiletypeJson, BsUpload } from "react-icons/bs";
 import { useCanvas } from "../../hooks/useCanvas";
 
 /* 
@@ -71,19 +72,19 @@ const TouchOptionsToolBar = () => {
                                 />
                                 <label
                                     htmlFor="fileInput"
-                                    className="cursor-pointer text-xs text-center w-full py-1 px-2 bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
+                                    className="cursor-pointer text-xs text-center rounded-lg w-full py-[0.36rem] px-[0.36rem] bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
 
                                 >
-                                    📥
+                                    <BsUpload />
                                 </label>
                             </div>
                             <div className="relative flex items-center justify-center">
                                 <label
                                     onClick={exportLayers}
-                                    className="cursor-pointer text-xs text-center w-full py-1 px-2 bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
+                                    className="cursor-pointer text-xs text-center rounded-lg w-full py-[0.36rem] px-[0.36rem] bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
 
                                 >
-                                    📦
+                                    <BsFiletypeJson />
                                 </label>
                             </div>
                         </div>
@@ -100,8 +101,11 @@ const TouchOptionsToolBar = () => {
                                             className={`px-4 py-2 text-white  text-center`}>
                                             <small className={`${index === activeLayer ? "text-white" : "text-black"}`}>Capa {index + 1}</small>
                                         </button>
-                                        <button onClick={() => toggleLayerVisibility(index)} className="px-2 py-2 bg-red-800 rounded-r">
-                                            {visibility[index] ? '🙈' : '👁'}
+                                        <button onClick={() => toggleLayerVisibility(index)} className="px-2 py-2 bg-red-800 rounded-r flex items-center justify-center">
+                                            {visibility[index] ?
+                                                (<><BsEyeSlashFill className="inline text-white"></BsEyeSlashFill></>) :
+                                                (<><BsEyeFill className="inline text-white"></BsEyeFill></>)
+                                            }
                                         </button>
                                     </div>
                                 </div>

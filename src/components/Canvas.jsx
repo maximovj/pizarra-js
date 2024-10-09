@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useCanvas } from '../hooks/useCanvas';
 import TouchOptionsToolBar from './ToolBar/TouchOptionsToolBar';
 import MouseOptionsToolBar from './ToolBar/MouseOptionsToolBar';
+import { BsFillLaptopFill, BsFillPhoneFill } from 'react-icons/bs';
 
 const Canvas = () => {
     const {
@@ -66,7 +67,10 @@ const Canvas = () => {
 
         <div className="flex flex-1 justify-between">
             <span className="mr-2">
-                {inputDevice === 'touch' ? '📱 Modo: táctil' : '💻 Modo: cursor'}
+                {inputDevice === 'touch' ?
+                    (<><BsFillPhoneFill className="inline text-slate-600 opacity-30" />&nbsp;<span className="text-xs ">Modo: táctil</span></>) :
+                    (<><BsFillLaptopFill className="inline text-slate-600 opacity-30" />&nbsp;<span className="text-xs ">Modo: cursor</span></>)
+                }
             </span>
             <span>
                 Coordenadas: ({coordinates.x.toFixed(0)}, {coordinates.y.toFixed(0)})
