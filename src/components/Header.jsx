@@ -23,11 +23,12 @@ const Header = ({ toggleAside }) => {
                 <div className=" bg-stone-800 p-2 text-sm rounded-md">
                     <div className="flex justify-start items-center gap-x-1">
                         <span className="text-white font-bold text-base">Capa {activeLayer + 1}</span>
+                        <div className="bg-slate-300 opacity-20 rounded-lg w-[0.1rem] h-[14px]"></div>
+                        <button className="text-white text-xs" onClick={saveImage}>Exportar</button>
                         <select className="w-14 h-6 text-sm rounded-sm" onChange={(e) => setImageFormat(e.target.value)} >
                             <option value="png">PNG</option>
                             <option value="jpg">JPG</option>
                         </select>
-                        <button className="text-white" onClick={saveImage}>Exportar</button>
                     </div>
                 </div>
             </div>
