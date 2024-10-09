@@ -3,6 +3,7 @@ import { useCanvas } from '../hooks/useCanvas';
 import TouchOptionsToolBar from './ToolBar/TouchOptionsToolBar';
 import MouseOptionsToolBar from './ToolBar/MouseOptionsToolBar';
 import { BsFillLaptopFill, BsFillPhoneFill } from 'react-icons/bs';
+import { Tooltip } from 'react-tooltip';
 
 const Canvas = () => {
     const {
@@ -66,10 +67,19 @@ const Canvas = () => {
         <MouseOptionsToolBar />
 
         <div className="flex flex-1 justify-between">
-            <span className="mr-2">
-                {inputDevice === 'touch' ?
-                    (<><BsFillPhoneFill className="inline text-slate-600 opacity-30" />&nbsp;<span className="text-xs ">Modo: táctil</span></>) :
-                    (<><BsFillLaptopFill className="inline text-slate-600 opacity-30" />&nbsp;<span className="text-xs ">Modo: cursor</span></>)
+            <Tooltip
+                id="tooltip-input-device"
+                style={{ fontSize: '10px' }}
+            />
+            <span
+                data-tooltip-id="tooltip-input-device"
+                data-tooltip-place="top-start"
+                data-tooltip-variant="info"
+                data-tooltip-content={inputDevice === "touch" ? 'Modo: táctil' : 'Modo: cursor'}
+                className="mr-2">
+                {inputDevice === "touch" ?
+                    (<><BsFillPhoneFill className="inline text-slate-600 opacity-30" /></>) :
+                    (<><BsFillLaptopFill className="inline text-slate-600 opacity-30" /></>)
                 }
             </span>
             <span>
