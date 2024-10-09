@@ -264,7 +264,12 @@ export const CanvasProvider = ({ children }) => {
     // después de mostrar la vista previa
     const redrawFigures = () => {
         clearCanvas();
-        figures.forEach(drawFigure);
+        //figures.forEach(drawFigure);
+        layers.forEach((layer, index) => {
+            if (visibility[index]) {
+                layer.forEach(figure => drawFigure(figure));
+            }
+        });
     };
 
     const drawFigure = (figure) => {
