@@ -50,8 +50,8 @@ const TouchOptionsToolBar = () => {
                     {/* Controles para herramienta capa */}
                     <h4 className="my-2 font-bold text-white">Más opciones:</h4>
                     {tool === 'layers' && (<div className="w-full">
-                        <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg justify-start mb-2 w-full" >
-                            <div className="relative flex items-center justify-center ">
+                        <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg border-t-2 border-t-slate-600 pt-2 rounded-t-lg justify-start mb-2" >
+                            <div className="relative flex items-center justify-center ml-2">
                                 <button onClick={addLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
                                     +
                                 </button>

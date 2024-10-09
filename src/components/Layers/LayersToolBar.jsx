@@ -24,14 +24,14 @@ const LayersToolBar = () => {
 
     return (
         <div className="flex flex-col gap-y-2 overflow-auto h-screen">
-            <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg justify-center">
+            <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg border-t-2 border-t-slate-600 pt-2 rounded-t-lg justify-center">
                 <div className="relative flex items-center justify-center ">
                     <button onClick={addLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
                         +
                     </button>
                 </div>
                 <div className="relative flex items-center justify-center ">
-                    <button onClick={deleteLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
+                    <button onClick={deleteLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-[.6rem] bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
                         -
                     </button>
                 </div>
