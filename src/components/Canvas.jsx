@@ -42,19 +42,24 @@ const Canvas = () => {
     };
 
     const handleTouchStart = (e) => {
+        e.preventDefault(); // Evita el desplazamiento
         const { x, y } = getCoordinates(e.touches[0]);
         startDrawing(x, y);
     };
 
     const handleTouchMove = (e) => {
+        e.preventDefault(); // Evita el desplazamiento
         const { x, y } = getCoordinates(e.touches[0]);
         draw({ nativeEvent: { offsetX: x, offsetY: y } });
         setCoordinates({ x, y });
     };
 
     const handleTouchEnd = (e) => {
-        stopDrawing(e);
+        e.preventDefault(); // Evita el desplazamiento
+        const { x, y } = getCoordinates(e.changedTouches[0]);
+        stopDrawing({ nativeEvent: { offsetX: x, offsetY: y } });
     };
+
 
     return (<div>
 
