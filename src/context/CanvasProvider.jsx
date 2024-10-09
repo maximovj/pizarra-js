@@ -4,6 +4,7 @@ export const CanvasContext = createContext();
 
 export const CanvasProvider = ({ children }) => {
     const canvasRef = useRef(null);
+    const [resizeCanvas, setResizeCanvas] = useState(false);
     const [isDrawing, setIsDrawing] = useState(false);
     const [context, setContext] = useState(null);
     const [tool, setTool] = useState('pencil');
@@ -60,7 +61,7 @@ export const CanvasProvider = ({ children }) => {
         ctx.lineCap = 'round';
         setContext(ctx);
         redrawLayers(ctx);
-    }, [layers, visibility]);
+    }, [layers, visibility, resizeCanvas]);
 
 
     /* The above code snippet is a `useEffect` hook in a React component that is triggered whenever the
@@ -452,11 +453,12 @@ export const CanvasProvider = ({ children }) => {
 
     const value = {
         canvasRef,
+        resizeCanvas,
+        setResizeCanvas,
         isDrawing,
         context,
         tool,
         setTool,
-
         figures,
         setFigures,
         startDrawing,
