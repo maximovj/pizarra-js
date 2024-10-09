@@ -9,15 +9,41 @@ import { useCanvas } from "../../hooks/useCanvas";
 */
 
 const LayersToolBar = () => {
-    const { layers, addLayer, activeLayer, exportLayers, changeLayer, toggleLayerVisibility, visibility } = useCanvas();
+    const { layers, addLayer, activeLayer, exportLayers, changeLayer, importLayers, toggleLayerVisibility, visibility } = useCanvas();
     return (
         <div className="flex flex-col gap-y-2 overflow-auto h-screen">
-            <button onClick={exportLayers} className="bg-black">
-                Exportar
-            </button>
-            <button onClick={addLayer} className="bg-black">
-                +
-            </button>
+            <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg justify-center">
+                <div className="relative flex items-center justify-center ">
+                    <button onClick={addLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
+                        +
+                    </button>
+                </div>
+                <div className="relative flex items-center justify-center ">
+                    <input
+                        type="file"
+                        accept=".json"
+                        onChange={importLayers}
+                        id="fileInput"
+                        className="sr-only"
+                    />
+                    <label
+                        htmlFor="fileInput"
+                        className="cursor-pointer text-xs text-center w-full py-1 px-2 bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
+
+                    >
+                        📥
+                    </label>
+                </div>
+                <div className="relative flex items-center justify-center">
+                    <label
+                        onClick={exportLayers}
+                        className="cursor-pointer text-xs text-center w-full py-1 px-2 bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
+
+                    >
+                        📦
+                    </label>
+                </div>
+            </div>
             <div className="flex flex-col gap-4 items-center">
                 {layers.map((x, index) =>
                     <div key={index}>
