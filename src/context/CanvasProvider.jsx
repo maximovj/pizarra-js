@@ -59,6 +59,7 @@ export const CanvasProvider = ({ children }) => {
         ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
         setContext(ctx);
+        redrawLayers(ctx);
     }, [layers, visibility]);
 
 
@@ -213,25 +214,30 @@ export const CanvasProvider = ({ children }) => {
                 setFigures([...figures, pencil]);
                 drawPencil(pencil.points, startPosition.x, startPosition.y, endX, endY);
                 setFigures([...figures, figure]);
+                addFigureToLayer(figure);
             } else if (tool === 'text') {
                 if (text) {
                     drawText(text, startPosition.x, startPosition.y, fontFamily, fontSize, fontColor);
                     setFigures([...figures, figure]);
+                    addFigureToLayer(figure);
                 }
             } else if (tool === 'circle') {
                 drawCircle(startPosition.x, startPosition.y, endX, endY);
                 setFigures([...figures, figure]);
+                addFigureToLayer(figure);
             } else if (tool === 'triangle') {
                 drawTriangle(startPosition.x, startPosition.y, endX, endY);
                 setFigures([...figures, figure]);
+                addFigureToLayer(figure);
             } else if (tool === 'square') {
                 drawSquare(startPosition.x, startPosition.y, endX, endY);
                 setFigures([...figures, figure]);
+                addFigureToLayer(figure);
             } else if (tool === 'line') {
                 drawLine(startPosition.x, startPosition.y, endX, endY);
                 setFigures([...figures, figure]);
+                addFigureToLayer(figure);
             }
-
         }
 
         context.closePath();
@@ -241,6 +247,14 @@ export const CanvasProvider = ({ children }) => {
         setPencil(null);
     };
 
+    const addFigureToLayer = (figure) => {
+        setLayers(prevLayers => {
+            const newLayers = [...prevLayers];
+            newLayers[activeLayer] = [...newLayers[activeLayer], figure];
+            return newLayers;
+        });
+    }
+
     /**
      * The function redraws various figures on a canvas based on their properties such as type,
      * position, color, and size.
@@ -249,21 +263,32 @@ export const CanvasProvider = ({ children }) => {
     // después de mostrar la vista previa
     const redrawFigures = () => {
         clearCanvas();
-        figures.forEach((figure) => {
-            if (figure.visible) {
-                if (figure.tool === 'text') {
-                    drawText(figure.text, figure.startX, figure.startY, figure.fontFamily, figure.fontSize, figure.fontColor);
-                } else if (figure.tool === 'circle') {
-                    drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
-                } else if (figure.tool === 'line') {
-                    drawLine(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
-                } else if (figure.tool === 'square') {
-                    drawSquare(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
-                } else if (figure.tool === 'triangle') {
-                    drawTriangle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
-                } else if (figure.tool === 'pencil') {
-                    drawPencil(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
-                }
+        figures.forEach(drawFigure);
+    };
+
+    const drawFigure = (figure) => {
+        if (figure.visible) {
+            if (figure.tool === 'text') {
+                drawText(figure.text, figure.startX, figure.startY, figure.fontFamily, figure.fontSize, figure.fontColor);
+            } else if (figure.tool === 'circle') {
+                drawCircle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+            } else if (figure.tool === 'line') {
+                drawLine(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+            } else if (figure.tool === 'square') {
+                drawSquare(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+            } else if (figure.tool === 'triangle') {
+                drawTriangle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+            } else if (figure.tool === 'pencil') {
+                drawPencil(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+            }
+        }
+    }
+
+    const redrawLayers = (ctx) => {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        layers.forEach((layer, index) => {
+            if (visibility[index]) {
+                layer.forEach(figure => drawFigure(figure));
             }
         });
     };
