@@ -57,14 +57,17 @@ const TouchOptionsToolBar = () => {
                         <div className="flex overflow-auto w-[400px] md:w-[540px] lg:w-[970px] mb-2">
                             {layers.map((_, index) => (
                                 <div key={index} className="flex items-center ml-2">
-                                    <div className="flex justify-start bg-zinc-700 rounded-md w-max h-[38px]">
+                                    <div onClick={() => changeLayer(index)} className={`flex justify-start rounded-md w-max h-[38px]
+                                        border-2
+                                        ${index === activeLayer ? "bg-sky-400" : "bg-sky-700"}
+                                        ${index === activeLayer ? "border-green-500" : "border-gray-100"}
+                                        hover:bg-sky-500 hover:cursor-pointer
+                                    `}>
                                         <button onClick={() => changeLayer(index)}
-                                            className={`px-4 py-2 text-white 
-                            ${activeLayer === index ? 'bg-blue-400 rounded-l' : ''}
-                            `}>
-                                            <small className="text-xs">Capa {index + 1}</small>
+                                            className={`px-4 py-2 text-white  text-center`}>
+                                            <small className={`${index === activeLayer ? "text-white" : "text-black"}`}>Capa {index + 1}</small>
                                         </button>
-                                        <button onClick={() => toggleLayerVisibility(index)} className="px-2 py-2 bg-red-900 rounded-r">
+                                        <button onClick={() => toggleLayerVisibility(index)} className="px-2 py-2 bg-red-800 rounded-r">
                                             {visibility[index] ? '🙈' : '👁'}
                                         </button>
                                     </div>
@@ -158,7 +161,8 @@ const TouchOptionsToolBar = () => {
                             </div>
                         </div>
                     )}
-                </div>)}
+                </div >)
+            }
         </>
     )
 }

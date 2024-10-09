@@ -9,9 +9,20 @@ import { useCanvas } from "../../hooks/useCanvas";
 */
 
 const CompactToolBar = () => {
-    const { tool, setTool, handleToolChange, setShowTooltip, showTooltip } = useCanvas();
+    const { tool, setTool, handleToolChange, setShowTooltip, showTooltip, inputDevice } = useCanvas();
     return (
         <div className="flex flex-col">
+            {inputDevice === 'touch' && (
+                <button
+                    className={`rounded-md p-2 w-full ${tool === 'layers' ? 'bg-slate-500' : ''}`}
+                    onClick={() => setTool('layers')}>
+                    <div className="flex flex-col gap-y-1">
+                        <i className="block">🧅</i>
+                        <small className="text-[9px]">Capas</small>
+                    </div>
+                </button>
+            )}
+
             <button className={`rounded-md p-2 w-full ${tool === 'pencil' ? 'bg-slate-500' : ''}`}
                 onClick={() => setShowTooltip(!showTooltip)}
                 onMouseOver={(e) => handleToolChange('pencil', e)}
@@ -84,14 +95,6 @@ const CompactToolBar = () => {
                 </div>
             </button>
 
-            <button
-                className={`rounded-md p-2 w-full ${tool === 'layers' ? 'bg-slate-500' : ''}`}
-                onClick={() => setTool('layers')}>
-                <div className="flex flex-col gap-y-1">
-                    <i className="block">🧅</i>
-                    <small className="text-[9px]">Capas</small>
-                </div>
-            </button>
         </div>
     )
 }

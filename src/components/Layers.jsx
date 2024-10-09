@@ -6,7 +6,7 @@ const Layers = ({ handleAnimationEnd, isAsideOpen }) => {
         <>
             {!isAsideOpen && (<>
                 <aside
-                    className={`bg-zinc-700 w-44 p-4 relative text-white md:block ${!isAsideOpen ? 'slide-in-layers' : 'slide-out-layers'}`}
+                    className={`bg-zinc-700 w-44 p-4 relative text-white hidden md:block ${!isAsideOpen ? 'slide-in-layers' : 'slide-out-layers'}`}
                     onAnimationEnd={handleAnimationEnd}
                 >
                     <LayersToolBar />
