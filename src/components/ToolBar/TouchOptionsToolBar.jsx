@@ -23,6 +23,7 @@ const TouchOptionsToolBar = () => {
         visibility,
         addLayer,
         deleteLayer,
+        importLayers,
         exportLayers,
         // Tool Text
         text,
@@ -49,10 +50,42 @@ const TouchOptionsToolBar = () => {
                     {/* Controles para herramienta capa */}
                     <h4 className="my-2 font-bold text-white">Más opciones:</h4>
                     {tool === 'layers' && (<div>
-                        <div className="mb-2">
-                            <button onClick={addLayer} className="bg-emerald-800 text-xs text-white px-4 py-2 mx-1 rounded-md">+</button>
-                            <button onClick={deleteLayer} className="bg-red-800 text-xs text-white px-4 py-2 mx-1 rounded-md">-</button>
-                            <button onClick={exportLayers} className="bg-sky-900 text-xs text-white px-4 py-2 mx-1 rounded-md">Exportar</button>
+                        <div className="flex gap-x-2 border-b-2 border-b-slate-600 pb-2 rounded-b-lg justify-start mb-2">
+                            <div className="relative flex items-center justify-center ">
+                                <button onClick={addLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
+                                    +
+                                </button>
+                            </div>
+                            <div className="relative flex items-center justify-center ">
+                                <button onClick={deleteLayer} className="cursor-pointer rounded-lg text-xs text-center w-full py-1 px-2 bg-black text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105">
+                                    -
+                                </button>
+                            </div>
+                            <div className="relative flex items-center justify-center ">
+                                <input
+                                    type="file"
+                                    accept=".json"
+                                    onChange={importLayers}
+                                    id="fileInput"
+                                    className="sr-only"
+                                />
+                                <label
+                                    htmlFor="fileInput"
+                                    className="cursor-pointer text-xs text-center w-full py-1 px-2 bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
+
+                                >
+                                    📥
+                                </label>
+                            </div>
+                            <div className="relative flex items-center justify-center">
+                                <label
+                                    onClick={exportLayers}
+                                    className="cursor-pointer text-xs text-center w-full py-1 px-2 bg-zinc-300 text-white  hover:bg-gray-900 hover:border-white transition-all duration-300 ease-in-out transform hover:scale-105"
+
+                                >
+                                    📦
+                                </label>
+                            </div>
                         </div>
                         <div className="flex overflow-auto w-[400px] md:w-[540px] lg:w-[970px] mb-2">
                             {layers.map((_, index) => (
