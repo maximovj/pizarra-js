@@ -32,7 +32,7 @@ const LayoutApp = () => {
                         <Outlet />
                     </main>
 
-                    <Layers handleAnimationEnd={handleAnimationEnd} />
+                    <Layers handleAnimationEnd={handleAnimationEnd} isAsideOpen={isAsideOpen} />
                 </div>
 
                 <Footer />
