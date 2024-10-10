@@ -144,11 +144,9 @@ export const CanvasProvider = ({ children }) => {
 
         if (tool === 'eraser') {
             const points = [{ x: x, y: y }, { x, y }];
-            context.globalCompositeOperation = 'destination-out'; // Cambia el modo de composición
-            context.beginPath();
-            context.arc(x, y, lineWidth / 2, 0, Math.PI * 2, false); // Dibuja un círculo
-            context.fill(); // Llena el círculo, lo que "borra" el contenido
-            context.globalCompositeOperation = 'source-over'; // Restablece el modo de composición
+            context.strokeStyle = "rgba(232, 155, 228)";
+            context.lineTo(x, y);
+            context.stroke();
 
             const newEraser = {
                 tool,
@@ -212,12 +210,10 @@ export const CanvasProvider = ({ children }) => {
             setStartPosition({ x, y });
             setPreviewPosition({ x, y });
         } else if (tool === 'eraser') {
-            const points = [{ x: x, y: y }, { x, y }];
-            context.globalCompositeOperation = 'destination-out'; // Cambia el modo de composición
-            context.beginPath();
-            context.arc(x, y, lineWidth / 2, 0, Math.PI * 2, false); // Dibuja un círculo
-            context.fill(); // Llena el círculo, lo que "borra" el contenido
-            context.globalCompositeOperation = 'source-over'; // Restablece el modo de composición
+            const points = [{ x: startPosition.x, y: startPosition.y }, { x, y }];
+            context.strokeStyle = "rgba(232, 155, 228)";
+            context.lineTo(x, y);
+            context.stroke();
             setEraser({
                 ...eraser,
                 points: [
@@ -297,9 +293,6 @@ export const CanvasProvider = ({ children }) => {
             }
         }
 
-        console.log("TEST 1.1 | eraser => ", eraser);
-        console.log("TEST 1.2 | figures => ", figures);
-        console.log("TEST 1.3 | layers => ", layers);
         context.closePath();
         setIsDrawing(false);
         setStartPosition(null);
@@ -350,7 +343,7 @@ export const CanvasProvider = ({ children }) => {
             } else if (figure.tool === 'pencil') {
                 drawPencil(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
             } else if (figure.tool === 'eraser') {
-                drawEraser(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineWidth);
+                drawEraser(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
             }
         }
     }
@@ -446,22 +439,32 @@ export const CanvasProvider = ({ children }) => {
         if (isPreview) context.globalAlpha = 1.0;
     };
 
-    const drawEraser = (points, startX, startY, endX, endY, isPreview = false, customLineWidth = null) => {
-        const glineWidth = customLineWidth || lineWidth;
-        context.lineWidth = glineWidth;
+    const drawEraser = (points, startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+        // Cambiar la operación de composición a "destination-out" para borrar píxeles
+        if (!isPreview) context.globalCompositeOperation = 'destination-out';
+        // Establecer el estilo de los bordes y las uniones de las líneas a "round"
+        context.lineCap = 'round';
+        context.lineJoin = 'round';
+        context.strokeStyle = 'rgba(232, 155, 228)'; // El color no importa cuando estás en este modo
+        context.lineWidth = customLineWidth || lineWidth;
         if (isPreview) context.globalAlpha = 0.5;
-        context.globalCompositeOperation = 'destination-out'; // Cambia el modo de composición
         context.beginPath();
+        // Dibujar las líneas a partir de los puntos dados
         if (points?.length > 0) {
-            points.forEach((point) => {
-                context.arc(point.x, point.y, glineWidth / 2, 0, Math.PI * 2, false); // Dibuja un círculo
+            points.forEach((point, index) => {
+                if (index === 0) {
+                    context.moveTo(point.x, point.y);
+                } else {
+                    context.lineTo(point.x, point.y); // Dibujar hasta el siguiente punto
+                }
             });
         }
-        context.fill(); // Llena el círculo, lo que "borra" el contenido
-        context.globalCompositeOperation = 'source-over'; // Restablece el modo de composición
+        context.stroke(); // Aplicar el trazo (borrador)
         if (!isPreview) context.closePath();
         if (isPreview) context.globalAlpha = 1.0;
-    }
+        // Restablecer la operación de composición a su valor por defecto
+        if (!isPreview) context.globalCompositeOperation = 'source-over';
+    };
 
     const clearCanvas = () => {
         const canvas = canvasRef.current;
