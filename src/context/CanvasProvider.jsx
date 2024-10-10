@@ -17,6 +17,8 @@ export const CanvasProvider = ({ children }) => {
     const [imageFormat, setImageFormat] = useState('png');
     const [inputDevice, setInputDevice] = useState('mouse');
     const [pencil, setPencil] = useState(null);
+    const [history, setHistory] = useState([]);
+    const [redoHistory, setRedoHistory] = useState([]);
 
     // Tool Text
     const [text, setText] = useState('');
@@ -254,7 +256,11 @@ export const CanvasProvider = ({ children }) => {
             newLayers[activeLayer] = [...newLayers[activeLayer], figure];
             return newLayers;
         });
-    }
+
+        // Agregar al historial
+        setHistory(prevHistory => [...prevHistory, { layers, figures }]);
+        setRedoHistory([]); // Limpiar el historial de rehacer
+    };
 
     /**
      * The function redraws various figures on a canvas based on their properties such as type,
@@ -455,6 +461,26 @@ export const CanvasProvider = ({ children }) => {
         }
     };
 
+    const undo = () => {
+        if (history.length > 0) {
+            const lastAction = history[history.length - 1];
+            setRedoHistory(prevRedo => [...prevRedo, { layers, figures }]); // Guardar el estado actual para rehacer
+            setLayers(lastAction.layers);
+            setFigures(lastAction.figures);
+            setHistory(prevHistory => prevHistory.slice(0, -1)); // Quitar la última acción
+        }
+    };
+
+    const redo = () => {
+        if (redoHistory.length > 0) {
+            const nextAction = redoHistory[redoHistory.length - 1];
+            setHistory(prevHistory => [...prevHistory, { layers, figures }]); // Guardar el estado actual para deshacer
+            setLayers(nextAction.layers);
+            setFigures(nextAction.figures);
+            setRedoHistory(prevRedo => prevRedo.slice(0, -1)); // Quitar la última acción
+        }
+    };
+
     const value = {
         canvasRef,
         resizeCanvas,
@@ -508,6 +534,9 @@ export const CanvasProvider = ({ children }) => {
         tooltipPosition,
         setTooltipPosition,
         handleToolChange,
+        // Tool undo, redo 
+        undo,
+        redo,
         // Input device 
         inputDevice,
     };
