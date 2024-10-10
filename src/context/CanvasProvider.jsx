@@ -92,6 +92,8 @@ export const CanvasProvider = ({ children }) => {
                 drawPencil(pencil?.points, startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             } else if (tool === 'eraser') {
                 drawEraser(eraser?.points, startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
+            } else if (tool === 'heart') {
+                drawHeart(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             }
         }
     }, [previewPosition]);
@@ -286,6 +288,10 @@ export const CanvasProvider = ({ children }) => {
                 drawLine(startPosition.x, startPosition.y, endX, endY);
                 setFigures([...figures, figure]);
                 addFigureToLayer(figure);
+            } else if (tool === 'heart') {
+                drawHeart(startPosition.x, startPosition.y, endX, endY);
+                setFigures([...figures, figure]);
+                addFigureToLayer(figure);
             } else if (tool === 'eraser') {
                 setEraser({ ...eraser, endX, endY });
                 setFigures([...figures, eraser]);
@@ -342,6 +348,8 @@ export const CanvasProvider = ({ children }) => {
                 drawSquare(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
             } else if (figure.tool === 'triangle') {
                 drawTriangle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+            } else if (figure.tool === 'heart') {
+                drawHeart(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
             } else if (figure.tool === 'pencil') {
                 drawPencil(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
             } else if (figure.tool === 'eraser') {
@@ -438,6 +446,32 @@ export const CanvasProvider = ({ children }) => {
         }
         context.stroke();
         if (!isPreview) context.closePath();
+        if (isPreview) context.globalAlpha = 1.0;
+    };
+
+    const drawHeart = (startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+        const centerX = startX;
+        const centerY = startY;
+        const size = Math.abs(endX - startX);
+        context.strokeStyle = customLineColor || lineColor;
+        context.fillStyle = customFillColor || fillColor;
+        context.lineWidth = customLineWidth || lineWidth;
+        if (isPreview) context.globalAlpha = 0.5;
+        context.beginPath();
+        const topCurveHeight = size * 0.3;
+        context.moveTo(centerX, centerY + topCurveHeight);
+        context.bezierCurveTo(
+            centerX - size / 2, centerY - topCurveHeight, // Control point 1
+            centerX - size, centerY + topCurveHeight,     // Control point 2
+            centerX, centerY + size                       // End point
+        );
+        context.bezierCurveTo(
+            centerX + size, centerY + topCurveHeight,     // Control point 3
+            centerX + size / 2, centerY - topCurveHeight, // Control point 4
+            centerX, centerY + topCurveHeight             // End point
+        );
+        context.fill();
+        context.stroke();
         if (isPreview) context.globalAlpha = 1.0;
     };
 

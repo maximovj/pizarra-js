@@ -155,7 +155,7 @@ const TouchOptionsToolBar = () => {
                     )}
 
                     {/* Controles de figuras circulo, triangulo, cuadrado */}
-                    {(tool === 'circle' || tool === 'triangle' || tool === 'square') && (
+                    {(tool === 'circle' || tool === 'triangle' || tool === 'square' || tool === 'heart') && (
                         <div className="mb-2">
                             <div className="flex mb-2">
                                 <div className="flex items-center mb-2">

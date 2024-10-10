@@ -1,6 +1,6 @@
 import { useCanvas } from "../../hooks/useCanvas";
 import { MdOutlineLinearScale } from "react-icons/md";
-import { BsTriangle, BsEraser, BsPencil, BsLayers, BsTextareaT, BsCircle, BsSquare } from "react-icons/bs";
+import { BsTriangle, BsEraser, BsPencil, BsTextareaT, BsCircle, BsSquare, BsHeart } from "react-icons/bs";
 
 /* 
 -------------------------------------------------------------
@@ -71,6 +71,16 @@ const ExpandedToolBar = () => {
                 <div className="flex flex-row gap-x-2">
                     <BsSquare className="block text-2xl" />
                     <span>Cuadrado</span>
+                </div>
+            </button>
+
+            <button className={`rounded-md p-2 w-full ${tool === 'heart' ? 'bg-slate-500' : ''}`}
+                onClick={() => setShowTooltip(!showTooltip)}
+                onMouseOver={(e) => handleToolChange('heart', e)}
+                style={{ touchAction: 'none' }}>
+                <div className="flex flex-row gap-x-2">
+                    <BsHeart className="block text-2xl" />
+                    <span>Corazón</span>
                 </div>
             </button>
 

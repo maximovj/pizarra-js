@@ -1,6 +1,6 @@
 import { useCanvas } from "../../hooks/useCanvas";
 import { MdOutlineLinearScale } from "react-icons/md";
-import { BsTriangle, BsEraser, BsPencil, BsLayers, BsTextareaT, BsCircle, BsSquare } from "react-icons/bs";
+import { BsTriangle, BsEraser, BsPencil, BsLayers, BsTextareaT, BsCircle, BsSquare, BsHeart } from "react-icons/bs";
 
 /* 
 -------------------------------------------------------------
@@ -83,6 +83,17 @@ const CompactToolBar = () => {
                 <div className="flex flex-col items-center gap-y-1">
                     <BsSquare className="block text-xl" />
                     <small className="text-[9px]">Cuadrado</small>
+                </div>
+            </button>
+
+            <button
+                className={`rounded-md p-2 w-full ${tool === 'heart' ? 'bg-slate-500' : ''}`}
+                onClick={() => setShowTooltip(!showTooltip)}
+                onMouseOver={(e) => handleToolChange('heart', e)}
+                style={{ touchAction: 'none' }}>
+                <div className="flex flex-col items-center gap-y-1">
+                    <BsHeart className="block text-xl" />
+                    <small className="text-[9px]">Corazón</small>
                 </div>
             </button>
 

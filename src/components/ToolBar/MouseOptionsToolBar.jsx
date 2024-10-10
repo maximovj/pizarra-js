@@ -53,17 +53,19 @@ const MouseOptionsToolBar = () => {
                         <div className="flex items-center mb-2">
                             <label className="mr-2 text-sm font-bold">Herramienta: {tool}</label>
                         </div>
-                        {(tool === "pencil" || tool === "line" || tool === "triangle" || tool === "square" || tool === "circle") && (<>
-                            <div className="flex items-center mb-2">
-                                <label className="mr-2 text-sm">Grosor: {lineWidth}</label>
-                                <input
-                                    type="range"
-                                    value={lineWidth}
-                                    onChange={(e) => setLineWidth(e.target.value)}
-                                    className="w-1/2"
-                                />
-                            </div>
-                        </>)}
+
+                        {(tool === "pencil" || tool === "line" || tool === "triangle" ||
+                            tool === "square" || tool === "circle" || tool === "heart") && (<>
+                                <div className="flex items-center mb-2">
+                                    <label className="mr-2 text-sm">Grosor: {lineWidth}</label>
+                                    <input
+                                        type="range"
+                                        value={lineWidth}
+                                        onChange={(e) => setLineWidth(e.target.value)}
+                                        className="w-1/2"
+                                    />
+                                </div>
+                            </>)}
 
                         {(tool === "text") && (<>
                             <div className="flex items-center mb-2">
@@ -110,18 +112,19 @@ const MouseOptionsToolBar = () => {
                             </div>
                         </>)}
 
-                        {(tool === "pencil" || tool === "line" || tool === "triangle" || tool === "square" || tool === "circle") && (<>
-                            <div className="flex items-center mb-2">
-                                <label className="mr-2 text-sm">Color de línea:</label>
-                                <input
-                                    type="color"
-                                    value={lineColor}
-                                    onChange={(e) => setLineColor(e.target.value)}
-                                />
-                            </div>
-                        </>)}
+                        {(tool === "pencil" || tool === "line" || tool === "triangle" ||
+                            tool === "square" || tool === "circle" || tool === "heart") && (<>
+                                <div className="flex items-center mb-2">
+                                    <label className="mr-2 text-sm">Color de línea:</label>
+                                    <input
+                                        type="color"
+                                        value={lineColor}
+                                        onChange={(e) => setLineColor(e.target.value)}
+                                    />
+                                </div>
+                            </>)}
 
-                        {(tool === "triangle" || tool === "square" || tool === "circle") && (<>
+                        {(tool === "triangle" || tool === "square" || tool === "circle" || tool === "heart") && (<>
                             <div className="flex items-center">
                                 <label className="mr-2 text-sm">Color de fondo:</label>
                                 <input
