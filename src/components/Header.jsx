@@ -11,7 +11,10 @@ const Header = ({ toggleAside, isAsideOpen }) => {
         setImageFormat,
         activeLayer,
         resizeCanvas,
-        setResizeCanvas } = useCanvas();
+        setResizeCanvas,
+        history,
+        redoHistory,
+    } = useCanvas();
 
     const handleToggle = () => {
         toggleAside();
@@ -51,7 +54,9 @@ const Header = ({ toggleAside, isAsideOpen }) => {
                                         data-tooltip-place="top-start"
                                         data-tooltip-variant="info"
                                         data-tooltip-content="Deshacer"
-                                        className="bg-black hover:bg-gray-900 rounded-md p-2 ml-1 text-white text-xs" onClick={undo}>
+                                        className={`
+                                        ${history.length > 0 ? "bg-black hover:bg-gray-900" : "bg-stone-800 hover:bg-stone-700"} 
+                                        rounded-md p-2 ml-1 text-white text-xs`} onClick={undo}>
                                         <BsArrowCounterclockwise />
                                     </button>
                                     <Tooltip
@@ -64,7 +69,9 @@ const Header = ({ toggleAside, isAsideOpen }) => {
                                         data-tooltip-place="top-start"
                                         data-tooltip-variant="info"
                                         data-tooltip-content="Rehacer"
-                                        className="bg-black hover:bg-gray-900 rounded-md p-2 ml-1 text-white text-xs" onClick={redo}>
+                                        className={`
+                                        ${redoHistory.length > 0 ? "bg-black hover:bg-gray-900" : "bg-stone-800 hover:bg-stone-700"}
+                                        rounded-md p-2 ml-1 text-white text-xs`} onClick={redo}>
                                         <BsArrowClockwise />
                                     </button>
                                 </div>

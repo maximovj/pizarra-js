@@ -618,7 +618,9 @@ export const CanvasProvider = ({ children }) => {
         handleToolChange,
         // Tool undo, redo 
         undo,
+        history,
         redo,
+        redoHistory,
         // Tool eraser 
         sizeEraser,
         setSizeEraser,
