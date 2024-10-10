@@ -42,6 +42,9 @@ const TouchOptionsToolBar = () => {
         setLineColor,
         fillColor,
         setFillColor,
+        // Tool eraser 
+        sizeEraser,
+        setSizeEraser,
     } = useCanvas();
 
     return (
@@ -192,8 +195,8 @@ const TouchOptionsToolBar = () => {
                         <div className="mb-2">
                             <div className="flex mb-2">
                                 <div className="flex items-center mb-2">
-                                    <label className="mr-2 text-white text-sm">Grosor: {lineWidth}</label>
-                                    <input type="range" min="1" max="60" value={lineWidth} onChange={(e) => setLineWidth(e.target.value)} className="w-1/2" />
+                                    <label className="mr-2 text-white text-sm">Grosor: {sizeEraser}</label>
+                                    <input type="range" min="1" max="60" value={sizeEraser} onChange={(e) => setSizeEraser(e.target.value)} className="w-1/2" />
                                 </div>
                             </div>
                         </div>
