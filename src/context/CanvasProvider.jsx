@@ -18,6 +18,7 @@ export const CanvasProvider = ({ children }) => {
     const [inputDevice, setInputDevice] = useState('mouse');
     const [pencil, setPencil] = useState(null);
     const [eraser, setEraser] = useState(null);
+    const [sizeEraser, setSizeEraser] = useState(3);
     const [history, setHistory] = useState([]);
     const [redoHistory, setRedoHistory] = useState([]);
 
@@ -155,7 +156,7 @@ export const CanvasProvider = ({ children }) => {
                 points: [{ x: x, y: y }, { x, y }],
                 lineColor,
                 fillColor,
-                lineWidth,
+                sizeEraser,
                 text,
                 fontSize,
                 fontColor,
@@ -193,10 +194,9 @@ export const CanvasProvider = ({ children }) => {
         const x = e.nativeEvent.offsetX;
         const y = e.nativeEvent.offsetY;
 
-        context.lineWidth = lineWidth;
-
         if (tool === 'pencil') {
             const points = [{ x: startPosition.x, y: startPosition.y }, { x, y }];
+            context.lineWidth = lineWidth;
             context.strokeStyle = lineColor;
             context.lineTo(x, y);
             context.stroke();
@@ -211,6 +211,7 @@ export const CanvasProvider = ({ children }) => {
             setPreviewPosition({ x, y });
         } else if (tool === 'eraser') {
             const points = [{ x: startPosition.x, y: startPosition.y }, { x, y }];
+            context.lineWidth = sizeEraser;
             context.strokeStyle = "rgba(232, 155, 228)";
             context.lineTo(x, y);
             context.stroke();
@@ -224,6 +225,7 @@ export const CanvasProvider = ({ children }) => {
             setStartPosition({ x, y });
             setPreviewPosition({ x, y });
         } else if (startPosition) {
+            context.lineWidth = lineWidth;
             setPreviewPosition({ x, y });
         }
     };
@@ -343,7 +345,7 @@ export const CanvasProvider = ({ children }) => {
             } else if (figure.tool === 'pencil') {
                 drawPencil(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
             } else if (figure.tool === 'eraser') {
-                drawEraser(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+                drawEraser(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.sizeEraser);
             }
         }
     }
@@ -439,14 +441,14 @@ export const CanvasProvider = ({ children }) => {
         if (isPreview) context.globalAlpha = 1.0;
     };
 
-    const drawEraser = (points, startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customLineWidth = null) => {
+    const drawEraser = (points, startX, startY, endX, endY, isPreview = false, customLineColor = null, customFillColor = null, customSizeEraser = null) => {
         // Cambiar la operación de composición a "destination-out" para borrar píxeles
         if (!isPreview) context.globalCompositeOperation = 'destination-out';
         // Establecer el estilo de los bordes y las uniones de las líneas a "round"
         context.lineCap = 'round';
         context.lineJoin = 'round';
         context.strokeStyle = 'rgba(232, 155, 228)'; // El color no importa cuando estás en este modo
-        context.lineWidth = customLineWidth || lineWidth;
+        context.lineWidth = customSizeEraser || sizeEraser;
         if (isPreview) context.globalAlpha = 0.5;
         context.beginPath();
         // Dibujar las líneas a partir de los puntos dados
@@ -617,6 +619,9 @@ export const CanvasProvider = ({ children }) => {
         // Tool undo, redo 
         undo,
         redo,
+        // Tool eraser 
+        sizeEraser,
+        setSizeEraser,
         // Input device 
         inputDevice,
     };

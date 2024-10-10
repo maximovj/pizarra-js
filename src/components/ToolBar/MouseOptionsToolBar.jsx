@@ -35,6 +35,9 @@ const MouseOptionsToolBar = () => {
         tooltipPosition,
         showTooltip,
         setShowTooltip,
+        // Tool eraser 
+        sizeEraser,
+        setSizeEraser,
     } = useCanvas();
 
     return (
@@ -50,7 +53,7 @@ const MouseOptionsToolBar = () => {
                         <div className="flex items-center mb-2">
                             <label className="mr-2 text-sm font-bold">Herramienta: {tool}</label>
                         </div>
-                        {(tool === "pencil" || tool === "line" || tool === "triangle" || tool === "square" || tool === "circle" || tool === "eraser") && (<>
+                        {(tool === "pencil" || tool === "line" || tool === "triangle" || tool === "square" || tool === "circle") && (<>
                             <div className="flex items-center mb-2">
                                 <label className="mr-2 text-sm">Grosor: {lineWidth}</label>
                                 <input
@@ -117,6 +120,7 @@ const MouseOptionsToolBar = () => {
                                 />
                             </div>
                         </>)}
+
                         {(tool === "triangle" || tool === "square" || tool === "circle") && (<>
                             <div className="flex items-center">
                                 <label className="mr-2 text-sm">Color de fondo:</label>
@@ -124,6 +128,18 @@ const MouseOptionsToolBar = () => {
                                     type="color"
                                     value={fillColor}
                                     onChange={(e) => setFillColor(e.target.value)}
+                                />
+                            </div>
+                        </>)}
+
+                        {(tool === "eraser") && (<>
+                            <div className="flex items-center mb-2">
+                                <label className="mr-2 text-sm">Grosor: {sizeEraser}</label>
+                                <input
+                                    type="range"
+                                    value={sizeEraser}
+                                    onChange={(e) => setSizeEraser(e.target.value)}
+                                    className="w-1/2"
                                 />
                             </div>
                         </>)}
