@@ -17,6 +17,7 @@ export const CanvasProvider = ({ children }) => {
     const [imageFormat, setImageFormat] = useState('png');
     const [inputDevice, setInputDevice] = useState('mouse');
     const [pencil, setPencil] = useState(null);
+    const [eraser, setEraser] = useState(null);
     const [history, setHistory] = useState([]);
     const [redoHistory, setRedoHistory] = useState([]);
 
@@ -88,6 +89,8 @@ export const CanvasProvider = ({ children }) => {
                 drawTriangle(startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             } else if (tool === 'pencil') {
                 drawPencil(pencil?.points, startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
+            } else if (tool === 'eraser') {
+                drawEraser(eraser?.points, startPosition.x, startPosition.y, previewPosition.x, previewPosition.y, true);
             }
         }
     }, [previewPosition]);
@@ -137,9 +140,42 @@ export const CanvasProvider = ({ children }) => {
                     ]
                 })
             }
+        }
 
-            setStartPosition({ x, y });
-            setPreviewPosition({ x, y });
+        if (tool === 'eraser') {
+            const points = [{ x: x, y: y }, { x, y }];
+            context.globalCompositeOperation = 'destination-out'; // Cambia el modo de composición
+            context.beginPath();
+            context.arc(x, y, lineWidth / 2, 0, Math.PI * 2, false); // Dibuja un círculo
+            context.fill(); // Llena el círculo, lo que "borra" el contenido
+            context.globalCompositeOperation = 'source-over'; // Restablece el modo de composición
+
+            const newEraser = {
+                tool,
+                startX: x,
+                startY: y,
+                points: [{ x: x, y: y }, { x, y }],
+                lineColor,
+                fillColor,
+                lineWidth,
+                text,
+                fontSize,
+                fontColor,
+                fontFamily,
+                visible: true,
+            };
+
+            if (!eraser?.points) {
+                setEraser(newEraser);
+            } else {
+                setEraser({
+                    ...eraser,
+                    points: [
+                        ...eraser.points,
+                        ...points
+                    ]
+                })
+            }
         }
     };
 
@@ -176,9 +212,21 @@ export const CanvasProvider = ({ children }) => {
             setStartPosition({ x, y });
             setPreviewPosition({ x, y });
         } else if (tool === 'eraser') {
-            context.strokeStyle = 'white';
-            context.lineTo(x, y);
-            context.stroke();
+            const points = [{ x: x, y: y }, { x, y }];
+            context.globalCompositeOperation = 'destination-out'; // Cambia el modo de composición
+            context.beginPath();
+            context.arc(x, y, lineWidth / 2, 0, Math.PI * 2, false); // Dibuja un círculo
+            context.fill(); // Llena el círculo, lo que "borra" el contenido
+            context.globalCompositeOperation = 'source-over'; // Restablece el modo de composición
+            setEraser({
+                ...eraser,
+                points: [
+                    ...eraser.points,
+                    ...points
+                ]
+            });
+            setStartPosition({ x, y });
+            setPreviewPosition({ x, y });
         } else if (startPosition) {
             setPreviewPosition({ x, y });
         }
@@ -199,7 +247,7 @@ export const CanvasProvider = ({ children }) => {
                 tool,
                 startX: startPosition.x,
                 startY: startPosition.y,
-                points: pencil?.points || [],
+                points: pencil?.points || eraser?.points || [],
                 endX,
                 endY,
                 lineColor,
@@ -240,14 +288,24 @@ export const CanvasProvider = ({ children }) => {
                 drawLine(startPosition.x, startPosition.y, endX, endY);
                 setFigures([...figures, figure]);
                 addFigureToLayer(figure);
+            } else if (tool === 'eraser') {
+                setEraser({ ...eraser, endX, endY });
+                setFigures([...figures, eraser]);
+                drawEraser(eraser.points, startPosition.x, startPosition.y, endX, endY);
+                setFigures([...figures, eraser]);
+                addFigureToLayer(figure);
             }
         }
 
+        console.log("TEST 1.1 | eraser => ", eraser);
+        console.log("TEST 1.2 | figures => ", figures);
+        console.log("TEST 1.3 | layers => ", layers);
         context.closePath();
         setIsDrawing(false);
         setStartPosition(null);
         setPreviewPosition(null);
         setPencil(null);
+        setEraser(null);
     };
 
     const addFigureToLayer = (figure) => {
@@ -291,6 +349,8 @@ export const CanvasProvider = ({ children }) => {
                 drawTriangle(figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
             } else if (figure.tool === 'pencil') {
                 drawPencil(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineColor, figure.fillColor, figure.lineWidth);
+            } else if (figure.tool === 'eraser') {
+                drawEraser(figure.points, figure.startX, figure.startY, figure.endX, figure.endY, false, figure.lineWidth);
             }
         }
     }
@@ -385,6 +445,23 @@ export const CanvasProvider = ({ children }) => {
         if (!isPreview) context.closePath();
         if (isPreview) context.globalAlpha = 1.0;
     };
+
+    const drawEraser = (points, startX, startY, endX, endY, isPreview = false, customLineWidth = null) => {
+        const glineWidth = customLineWidth || lineWidth;
+        context.lineWidth = glineWidth;
+        if (isPreview) context.globalAlpha = 0.5;
+        context.globalCompositeOperation = 'destination-out'; // Cambia el modo de composición
+        context.beginPath();
+        if (points?.length > 0) {
+            points.forEach((point) => {
+                context.arc(point.x, point.y, glineWidth / 2, 0, Math.PI * 2, false); // Dibuja un círculo
+            });
+        }
+        context.fill(); // Llena el círculo, lo que "borra" el contenido
+        context.globalCompositeOperation = 'source-over'; // Restablece el modo de composición
+        if (!isPreview) context.closePath();
+        if (isPreview) context.globalAlpha = 1.0;
+    }
 
     const clearCanvas = () => {
         const canvas = canvasRef.current;
