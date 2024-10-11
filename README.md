@@ -55,3 +55,5 @@ Este conjunto de tecnologías y características para este sitio web:
 ![preview04.jpg](/screenshots/preview04.jpg)
 
 ![preview05.jpg](/screenshots/preview05.jpg)
+
+![preview06.jpg](/screenshots/preview06.png)
