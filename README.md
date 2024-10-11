@@ -44,6 +44,20 @@ Este conjunto de tecnologías y características para este sitio web:
 - react-router-dom v6.26.2
 - react-tooltip v5.28.0
 
+# JSON portable
+
+Puede utilizar estos archivos JSON de pruebas, con figuras creados usando el sitio pizarra js.
+
+- [figures.json](/json/figures.json)
+
+- [layers.json](/json/layers.json)
+
+- [draw.json](/json/draw.json)
+
+- [country.json](/json/country.json)
+
+- [memo.json](/json/memo.json)
+
 # Vista previas
 
 ![preview01.png](/screenshots/preview01.png)
